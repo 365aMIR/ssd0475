@@ -457,7 +457,7 @@ body {
   font-family: "Ojuju", sans-serif;
   color: #000300;
   background-color: #fffeff;
-  background-image: conic-gradient(#f8b5e7 0 25%, #fffeff 0 50%, #f8b5e7 0 75%, #fffeff 0);
+  background-image: conic-gradient(#f8b5e7 0 25%, #fdfcf7 0 50%, #f8b5e7 0 75%, #fdfcf7 0);
   background-size: 48px 48px;
 }
 
@@ -477,7 +477,6 @@ h6 {
 
 a {
   color: #000300;
-  transition: 0.2s ease-in;
 }
 a:hover {
   color: #c8102e;
@@ -614,7 +613,7 @@ img {
   overflow: hidden;
   text-overflow: ellipsis;
   background-color: #fffeff;
-  background-image: conic-gradient(#f8b5e7 0 25%, #fffeff 0 50%, #f8b5e7 0 75%, #fffeff 0);
+  background-image: conic-gradient(#f8b5e7 0 25%, #fdfcf7 0 50%, #f8b5e7 0 75%, #fdfcf7 0);
   background-size: 16px 16px;
 }
 
