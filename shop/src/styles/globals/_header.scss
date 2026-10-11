@@ -1,20 +1,27 @@
 @use '../utils/variables' as *;
 
 .block-top-header {
-    background-color: $lightgrey;
+    // background-color: $lightgrey;
     border-bottom: 2px solid $black;
-    padding: 8px 0;
+    // padding: 8px 0;
+    padding: 6px 0;
     text-align: center;
     font-family: $tiny5;
     font-size: 14px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    background-color: #fffeff;
+    background-image: conic-gradient($pink 0 25%, #fffeff 0 50%, $pink 0 75%, #fffeff 0);
+    background-size: 16px 16px;
 }
 
 .block-header {
-    background-color: $white;
+    background-color: transparent;
+    background-color: white;
     border-bottom: 2px solid $black;
+    // backdrop-filter: hue-rotate(252deg);
+    // backdrop-filter: blur(1px);
 
     &-wrapper {
         display: flex;

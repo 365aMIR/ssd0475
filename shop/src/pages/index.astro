@@ -7,6 +7,7 @@ import ProductCard from '../components/ProductCard.astro';
 import ProductModal from '../components/ProductModal.astro';
 import CartReceipt from '../components/CartReceipt.astro';
 import LogoCycle from '../components/LogoCycle.astro';
+import Vault from '../components/Vault.astro';
 import { products, SHIPPING } from '../data/products';
 import { ep } from '../data/ep';
 import { getBeats } from '../lib/beats';
@@ -20,14 +21,15 @@ const icons = [
     { win: 'drop', label: 'drop_001' },
     { win: 'ep', label: "mama's tuin", icon: ep.cover },
     { win: 'radio', label: 'radio', icon: '/img/cd_audio_cd-0_256.png' },
-    { win: 'roermoney', label: 'roermoney', icon: '/img/shop/roermoney.png' },
+    { win: 'southsidedinero', label: 'southsidedinero', icon: '/img/shop/roermoney.png' },
+    { win: 'vault', label: 'kluis', icon: '/img/shop/vault.svg' },
 ];
 
 const quickNav = [
     { label: 'drop_001', win: 'drop' },
     { label: "mama's tuin", win: 'ep' },
     { label: 'radio', win: 'radio' },
-    { label: 'roermoney', win: 'roermoney' },
+    { label: 'southsidedinero', win: 'southsidedinero' },
 ];
 
 const clipTrack = ep.tracks[ep.videoTrack];
@@ -35,7 +37,7 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
 ---
 
 <Base title="southsidedinero">
-    <div class="block-top-header">nieuwe drop is live · rojo &amp; angelo</div>
+    <div class="block-top-header"></div>
 
     <header class="block-header">
         <div class="container">
@@ -74,14 +76,14 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                 <div class="main">
                     <section class="block-hero">
                         <div class="block-hero-copy box shadow">
-                            <h6 class="block-hero-annotation">nieuwe drop</h6>
-                            <h1 class="block-hero-header">rojo &amp; angelo zijn binnen</h1>
-                            <p class="block-hero-content">[Korte drop-tekst: materiaal, pasvorm, oplage.]</p>
+                            <h6 class="block-hero-annotation">koop je hoodie</h6>
+                            <h1 class="block-hero-header">drop_001</h1>
+                            <!-- <p class="block-hero-content"></p> -->
                             <div class="block-hero-button-wrapper">
                                 <a
                                     class="button yellow"
                                     href="#shop"
-                                    >shop de drop →</a
+                                    >kom fris →</a
                                 >
                                 <a
                                     class="link-mono"
@@ -135,9 +137,14 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                         id="shop"
                         class="block-products"
                     >
+                        <div
+                            class="block-splitter"
+                            aria-hidden="true"
+                        >
+                        </div>
                         <div class="block-products-head box">
                             <h2 class="block-products-title">
-                                vers binnen <small class="block-products-count">{products.length} pieces · meer komt eraan</small>
+                                de collectie<small class="block-products-count">{products.length} </small>
                             </h2>
                         </div>
                         <div class="block-products-grid">
@@ -226,7 +233,7 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                                 </div>
 
                                 <div class="block-ep-video">
-                                    <span class="block-ep-video-label">{clipTrack.title}.mp4 · videoclip</span>
+                                    <span class="block-ep-video-label">clipper</span>
                                     {
                                         /* Thumbnail first, YouTube player only after a click: the page
                                         stays light and the play is a real view on the channel. */
@@ -363,8 +370,8 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                         </Window>
 
                         <Window
-                            id="roermoney"
-                            title="roermoney"
+                            id="southsidedinero"
+                            title="southsidedinero"
                             width={500}
                             open={false}
                         >
@@ -382,6 +389,15 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                                 </div>
                             </div>
                         </Window>
+
+                        <Window
+                            id="vault"
+                            title="kluis"
+                            width={320}
+                            open={false}
+                        >
+                            <Vault />
+                        </Window>
                     </DesktopSection>
 
                     <div
@@ -395,53 +411,14 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
     </main>
 
     <footer class="block-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="block-footer-wrapper">
-                        <div class="block-footer-col block-footer-brand">
-                            <img
-                                src="/img/shop/logo-8.png"
-                                alt="southsidedinero"
-                                width="170"
-                                height="85"
-                            />
-                            <span>roermoney · 0475</span>
-                        </div>
-                        <div class="block-footer-col">
-                            <h3 class="block-footer-title">Shop</h3>
-                            <a href="#shop">Nieuw</a>
-                            <a
-                                href="#desktop"
-                                data-open-win="drop"
-                                >drop_001</a
-                            >
-                        </div>
-                        <div class="block-footer-col">
-                            <h3 class="block-footer-title">Service</h3>
-                            <a href="#">Bestellen, verzenden en betalen</a>
-                            <a href="#">Ruilen en retourneren</a>
-                            <a href="#">Veelgestelde vragen</a>
-                        </div>
-                        <div class="block-footer-col">
-                            <h3 class="block-footer-title">Algemeen</h3>
-                            <a
-                                href="#desktop"
-                                data-open-win="roermoney"
-                                >Over southsidedinero</a
-                            >
-                            <a
-                                href="#desktop"
-                                data-open-win="radio"
-                                >Radio</a
-                            >
-                            <a href="#">Contact</a>
-                            <a href="#">Instagram</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <img
+            class="block-footer-image"
+            src="/img/shop/nulnanul-eagle.png"
+            alt="nulnanul"
+            width="2111"
+            height="674"
+            loading="lazy"
+        />
         <div class="block-footer-bottom">
             <div class="container">
                 <div class="row">

@@ -12,6 +12,28 @@
     // No dimmed overlay: the page stays visible behind the window.
     &::backdrop {
         background-color: transparent;
+        // background-color: white;
+        // background-image: conic-gradient(#8fd3f4 0 25%, #fffeff 0 50%, #8fd3f4 0 75%, #fffeff 0);
+        // background-size: 130px;
+    }
+
+    // Stripes of the hoodie(s) in the cart, behind the receipt. The class is
+    // set by shop-client.ts from cartClass in src/data/products.ts.
+    &.rojo::backdrop {
+        // background-color: white;
+        // background-image: linear-gradient(#f80000 0 25%, #f80000 0 50%, #13151a 0 75%, #13151a 0);
+        // background-size: 113px 130px;
+    }
+
+    &.angelo::backdrop {
+        // background-color: white;
+        // background-image: linear-gradient(#26489f 0 25%, #26489f 0 50%, #13151a 0 75%, #13151a 0);
+        // background-size: 113px 130px;
+    }
+
+    // Both in the cart: red, black, blue, black.
+    &.rojo.angelo::backdrop {
+        // background-image: linear-gradient(#26489f 0 25%, #13151a 0 50%, #26489f 0 75%, #13151a 0);
     }
 
     &-paper {

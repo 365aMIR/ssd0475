@@ -1,0 +1,146 @@
+@use '../utils/variables' as *;
+
+.block-vault {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    &-door {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+        background-color: $midgrey;
+        border: 2px solid $black;
+        border-bottom-width: 6px;
+
+        &[hidden] {
+            display: none;
+        }
+    }
+
+    &-display {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 14px;
+        background-color: $black;
+        color: $green;
+        font-family: $tiny5;
+        font-size: 30px;
+        letter-spacing: 6px;
+        border: 2px solid $black;
+
+        & small {
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        &.wrong {
+            color: $red;
+            animation: ssd-vault-shake 0.35s;
+        }
+
+        &.right {
+            color: $black;
+            background-color: $green;
+        }
+    }
+
+    &-keys {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    &-key {
+        padding: 10px 0;
+        background-color: $grey;
+        border: 2px solid $black;
+        border-bottom-width: 5px;
+        font-family: $tiny5;
+        font-size: 22px;
+        cursor: crosshair;
+
+        &:hover {
+            background-color: $green;
+        }
+
+        &:active {
+            border-bottom-width: 2px;
+            transform: translateY(3px);
+        }
+
+        &.clear:hover {
+            background-color: $black;
+            color: $red;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    }
+
+    &-hint {
+        font-family: $tiny5;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    &-inside {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+        background-color: $white;
+        border: 2px solid $black;
+
+        &[hidden] {
+            display: none;
+        }
+    }
+
+    &-title {
+        font-size: 26px;
+        font-weight: 800;
+    }
+
+    &-note {
+        font-family: $taviraj;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    &-items {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        & a {
+            padding: 6px 10px;
+            border: 2px solid $black;
+            font-family: $tiny5;
+            font-size: 15px;
+            color: $black;
+            text-decoration: none;
+
+            &:hover {
+                background-color: $green;
+            }
+        }
+    }
+}
+
+@keyframes ssd-vault-shake {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-6px);
+    }
+    75% {
+        transform: translateX(6px);
+    }
+}

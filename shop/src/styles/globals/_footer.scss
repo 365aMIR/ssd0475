@@ -1,41 +1,15 @@
 @use '../utils/variables' as *;
 
+// No link columns: the nulnanul eagle edge to edge, then the bottom bar.
 .block-footer {
     background-color: $white;
     border-top: 2px solid $black;
 
-    &-wrapper {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
-        gap: 28px;
-        padding: 40px 0;
-        font-family: $taviraj;
-        font-size: 15px;
-    }
-
-    &-col {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    &-title {
-        font-family: $ojuju;
-        font-size: 18px;
-        font-weight: 800;
-        margin-bottom: 4px;
-    }
-
-    &-brand {
-        & img {
-            width: 170px;
-            height: auto;
-        }
-
-        & span {
-            font-family: $tiny5;
-            font-size: 14px;
-        }
+    &-image {
+        display: block;
+        width: calc(100% - 48px);
+        height: auto;
+        margin: 32px 24px 24px;
     }
 
     &-bottom {
@@ -56,5 +30,12 @@
             display: flex;
             gap: 16px;
         }
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .block-footer-image {
+        width: calc(100% - 24px);
+        margin: 20px 12px 12px;
     }
 }

@@ -59,9 +59,9 @@ const { id, title, x, y, width = 380, open = true, dock = true } = Astro.props;
     min-width: 260px;
     /* Never wider or taller than the desktop: a window that overflows takes
        its resize grip off screen with it, and on a phone there is no way to
-       reach round and pull it back. */
-    max-width: 100%;
-    max-height: 100%;
+       reach round and pull it back. On a big screen it stops at 1132×600. */
+    max-width: min(1132px, 100%);
+    max-height: min(600px, 100%);
     background-color: #D9D9D9;
     border-bottom: 6px solid #000300;
     border-right: 2px solid #000300;

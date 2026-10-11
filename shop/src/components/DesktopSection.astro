@@ -42,12 +42,12 @@ const { icons } = Astro.props;
                             data-open-win={item.win}
                         >
                             {item.icon ? (
-                                <img
-                                    src={item.icon}
-                                    alt=""
-                                    width="56"
-                                    height="46"
-                                />
+                                    <img
+                                        src={item.icon}
+                                        alt=""
+                                        width="56"
+                                        height="46"
+                                    />
                             ) : (
                                 <svg
                                     width="56"
@@ -79,7 +79,6 @@ const { icons } = Astro.props;
     </div>
 
     <footer class="block-desktop-taskbar">
-        <span class="block-desktop-start">start</span>
         <div
             class="block-desktop-dock"
             data-taskbar-dock

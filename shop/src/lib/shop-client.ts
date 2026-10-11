@@ -99,6 +99,16 @@ export function startShop() {
         el('bon-shipping').textContent = shipping == null ? 'nog te bepalen' : euro(shipping);
         el('bon-total').textContent = euro(subtotal + (shipping ?? 0));
 
+        // Each product in the cart puts its own class on the receipt (rojo,
+        // angelo…), so the backdrop takes on that hoodie's stripes.
+        products.forEach((p) => {
+            if (p.cartClass)
+                bon.classList.toggle(
+                    p.cartClass,
+                    cart.some((l) => l.id === p.id),
+                );
+        });
+
         const count = cart.reduce((n, l) => n + l.qty, 0);
         document.querySelectorAll('[data-cart-count]').forEach((n) => {
             n.textContent = String(count);
@@ -169,6 +179,16 @@ export function startShop() {
 
         el('pm-name').textContent = product.name;
         el('pm-price').textContent = euro(product.price);
+
+        const description = el('pm-description');
+        description.replaceChildren(
+            ...product.description.map((text) => {
+                const p = document.createElement('p');
+                p.textContent = text;
+                return p;
+            }),
+        );
+        description.hidden = product.description.length === 0;
 
         sizeRow.setAttribute('role', 'radiogroup');
         sizeRow.setAttribute('aria-label', 'Maat');

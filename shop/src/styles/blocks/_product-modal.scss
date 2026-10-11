@@ -33,6 +33,7 @@
         border: 2px solid $black;
         border-bottom: none;
         border-radius: 12px 12px 0 0;
+        letter-spacing: -2.5px;
     }
 
     &-frame {
@@ -82,7 +83,7 @@
     &-info {
         display: flex;
         flex-direction: column;
-        gap: 22px;
+        gap: 8px;
     }
 
     &-header {
@@ -99,6 +100,22 @@
         font-family: $tiny5;
         font-size: 42px;
         line-height: 1;
+    }
+
+    &-description {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 10px 12px;
+        background-color: $white;
+        border: 2px solid $black;
+        font-family: $space-mono;
+        font-size: 13px;
+        line-height: 1.5;
+
+        &[hidden] {
+            display: none;
+        }
     }
 
     &-sizes {
@@ -177,9 +194,9 @@
 
         &:hover {
             background-color: $red;
+            color: $white;
         }
     }
-
 
     &-line {
         flex: 1;

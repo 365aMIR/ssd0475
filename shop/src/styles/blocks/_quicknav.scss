@@ -15,13 +15,19 @@
         font-size: 14px;
         text-decoration: none;
         border-right: 2px solid $black;
+        transition: none;
+
+        &:first-child {
+            border-left: 2px solid $black;
+        }
 
         &:last-child {
-            border-right: none;
+            // border-right: none;
         }
 
         &:hover {
-            color: $black;
+            color: $white;
+            background: radial-gradient(#00acff, transparent)
         }
     }
 }
@@ -34,6 +40,10 @@
         &-link {
             text-align: center;
             border-bottom: 2px solid $black;
+
+            &:first-child {
+                border-left: none;
+            }
 
             &:nth-child(2n) {
                 border-right: none;

@@ -72,6 +72,16 @@ the visitor would never need. New master? Re-export, e.g.
 `ffmpeg -i "track.wav" -b:a 192k "track.mp3"`, and update `src/data/ep.ts`.
 The EP player and the radio pause each other, so only one plays at a time.
 
+## The vault
+
+The "kluis" window on the desktop opens with a 4-digit code. The code is
+checked server-side by `src/pages/api/vault.ts`; `src/lib/vault.server.ts` holds
+only its sha256 and the contents, and is never imported by a page, so neither
+shows up in the browser. Change the code with the `VAULT_PIN` env var (Coolify)
+or a new hash: `printf 1234 | sha256sum`. Five wrong tries locks a visitor out
+for a minute. Edit `vaultContents` for what's inside; files linked from there
+must not live in `public/`, or they're reachable without the code.
+
 ## Still open
 
 - **Checkout**: the receipt's checkout button is disabled. Needs a payment
