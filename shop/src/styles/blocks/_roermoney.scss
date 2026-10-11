@@ -1,0 +1,35 @@
+@use '../utils/variables' as *;
+
+.block-roermoney {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    padding: 20px;
+    background-color: $pink;
+    border: 2px solid $black;
+
+    &-badge {
+        width: 150px;
+        height: auto;
+        transform: rotate(6deg);
+        flex: none;
+    }
+
+    &-text {
+        flex: 1 1 200px;
+    }
+
+    &-header {
+        margin-bottom: 8px;
+        font-size: 30px;
+        font-weight: 800;
+        line-height: 1.05;
+    }
+
+    &-content {
+        font-family: $taviraj;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+}

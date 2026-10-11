@@ -1,0 +1,217 @@
+@use '../utils/variables' as *;
+
+// The cart, opened in the middle of the screen as a till receipt.
+.block-cart {
+    padding: 0;
+    border: none;
+    background: transparent;
+    width: min(380px, calc(100vw - 32px));
+    max-height: calc(100dvh - 32px);
+    overflow: visible;
+
+    // No dimmed overlay: the page stays visible behind the window.
+    &::backdrop {
+        background-color: transparent;
+    }
+
+    &-paper {
+        transform: rotate(-1.2deg);
+        filter: drop-shadow(8px 10px 0 rgba(0, 3, 0, 0.35));
+    }
+
+    // Torn edges: two rows of triangles in the paper colour.
+    &-edge {
+        height: 12px;
+
+        &.top {
+            background:
+                linear-gradient(-45deg, $paper 6px, transparent 0) 0 100% / 12px 12px repeat-x,
+                linear-gradient(45deg, $paper 6px, transparent 0) 0 100% / 12px 12px repeat-x;
+        }
+
+        &.bottom {
+            background:
+                linear-gradient(-135deg, $paper 6px, transparent 0) 0 0 / 12px 12px repeat-x,
+                linear-gradient(135deg, $paper 6px, transparent 0) 0 0 / 12px 12px repeat-x;
+        }
+    }
+
+    &-body {
+        background-color: $paper;
+        padding: 14px 26px 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        font-family: $space-mono;
+        font-size: 13px;
+        max-height: calc(100dvh - 72px);
+        overflow-y: auto;
+    }
+
+    &-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    &-title {
+        font-family: $tiny5;
+        font-size: 32px;
+        line-height: 1;
+    }
+
+    &-logo {
+        align-self: center;
+        width: 170px;
+        height: auto;
+    }
+
+    &-meta {
+        text-align: center;
+        line-height: 1.5;
+    }
+
+    &-dash,
+    &-double {
+        width: 100%;
+        margin: 0;
+        border: none;
+    }
+
+    &-dash {
+        border-top: 2px dashed $black;
+    }
+
+    &-double {
+        border-top: 4px double $black;
+    }
+
+    &-empty {
+        padding: 18px 0;
+        text-align: center;
+    }
+
+    &-lines {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    // Line items are written in by shop-client.ts.
+    &-line {
+        &-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        &-name {
+            font-family: $taviraj;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        &-sum {
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        &-ctrl {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+
+            & button {
+                width: 36px;
+                height: 36px;
+                background-color: $white;
+                border: 1px solid $black;
+                font-family: $space-mono;
+                cursor: crosshair;
+
+                &:hover {
+                    background-color: $green;
+                }
+            }
+        }
+
+        &-size {
+            min-width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: $lightgrey;
+            border: 1px solid $black;
+            font-family: $tiny5;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        &-spacer {
+            flex: 1;
+        }
+
+        &-qty {
+            min-width: 24px;
+            text-align: center;
+            font-weight: 700;
+        }
+    }
+
+    &-row {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &-total {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-family: $tiny5;
+        font-size: 26px;
+
+        & span:last-child {
+            font-size: 30px;
+        }
+    }
+
+    &-checkout {
+        min-height: 48px;
+        background-color: $black;
+        color: $white;
+        border: none;
+        font-family: $tiny5;
+        font-size: 18px;
+        cursor: crosshair;
+
+        &:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+    }
+
+    &-note {
+        margin-top: -6px;
+        text-align: center;
+        font-size: 11px;
+    }
+
+    &-barcode {
+        width: 100%;
+        height: 40px;
+        margin-top: 6px;
+    }
+
+    // The nulnanul slogan, signing off the receipt.
+    &-thanks {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin-top: 4px;
+    }
+}

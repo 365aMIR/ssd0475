@@ -1,0 +1,130 @@
+---
+/**
+ * The one product popup — there are no product pages. Filled in by
+ * shop-client.ts when a [data-product-open] is clicked.
+ * Styles: blocks/_product-modal.scss
+ */
+---
+
+<dialog
+    class="block-product-modal"
+    id="product-modal"
+    aria-labelledby="pm-name"
+>
+    <span
+        class="block-product-modal-tab"
+        aria-hidden="true"
+        >southsidedinero</span
+    >
+    <div class="block-product-modal-frame">
+        <form method="dialog">
+            <button
+                class="block-product-modal-close button-close"
+                aria-label="Sluiten"
+                >x</button
+            >
+        </form>
+
+        <div class="block-product-modal-top">
+            <button
+                type="button"
+                class="block-product-modal-shot"
+                id="pm-zoom"
+                aria-label="Bekijk alle foto's"
+            >
+                <img
+                    id="pm-photo"
+                    src=""
+                    alt=""
+                />
+            </button>
+
+            <div class="block-product-modal-info">
+                <h2
+                    class="block-product-modal-header"
+                    id="pm-name"
+                >
+                </h2>
+                <p
+                    class="block-product-modal-price"
+                    id="pm-price"
+                >
+                </p>
+
+                <fieldset class="block-product-modal-sizes">
+                    <legend>size</legend>
+                    <div
+                        class="block-product-modal-size-row"
+                        id="pm-sizes"
+                    >
+                    </div>
+                </fieldset>
+
+                <button
+                    type="button"
+                    class="block-product-modal-add"
+                    id="pm-add"
+                    >add to cart</button
+                >
+            </div>
+        </div>
+
+        <div class="block-product-modal-slider">
+            <button
+                type="button"
+                class="block-product-modal-prev"
+                id="pm-prev"
+                aria-label="Vorige foto"
+                >‹</button
+            >
+            <span class="block-product-modal-line"></span>
+            <button
+                type="button"
+                class="block-product-modal-next"
+                id="pm-next"
+                aria-label="Volgende foto"
+                >›</button
+            >
+        </div>
+
+        <div
+            class="block-product-modal-thumbs"
+            id="pm-thumbs"
+        >
+        </div>
+    </div>
+</dialog>
+
+<!-- Gallery: every photo of the product stacked in one tall window. Opens on
+     top of the popup when the big photo is clicked. Styles:
+     blocks/_product-gallery.scss -->
+<dialog
+    class="block-product-gallery"
+    id="product-gallery"
+    aria-labelledby="pg-name"
+>
+    <span
+        class="block-product-gallery-tab"
+        aria-hidden="true"
+        >nulnanul.nl</span
+    >
+    <div class="block-product-gallery-frame">
+        <form method="dialog">
+            <button
+                class="block-product-gallery-close"
+                aria-label="Sluiten"
+                >x</button
+            >
+        </form>
+        <div
+            class="block-product-gallery-photos"
+            id="pg-photos"
+        >
+        </div>
+        <h2
+            class="block-product-gallery-name"
+            id="pg-name"
+        >
+        </h2>
+    </div>
+</dialog>

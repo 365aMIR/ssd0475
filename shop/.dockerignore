@@ -1,0 +1,9 @@
+node_modules
+dist
+.astro
+.git
+.env
+.env.production
+.vscode
+npm-debug.log*
+public/mamastuin/*.wav

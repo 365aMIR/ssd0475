@@ -1,0 +1,49 @@
+@use '../utils/variables' as *;
+
+.block-top-header {
+    background-color: $lightgrey;
+    border-bottom: 2px solid $black;
+    padding: 8px 0;
+    text-align: center;
+    font-family: $tiny5;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.block-header {
+    background-color: $white;
+    border-bottom: 2px solid $black;
+
+    &-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 0;
+    }
+
+    // The ssdssd wordmark: click to recolour, like the Sticker on the radio site.
+    &__logo {
+        display: block;
+        width: clamp(130px, 28vw, 200px);
+        padding: 0;
+        background: none;
+        border: none;
+        cursor: crosshair;
+        filter: drop-shadow(2px 2px 0 $white);
+
+        & img {
+            display: block;
+            width: 100%;
+            height: auto;
+            -webkit-user-drag: none;
+        }
+    }
+
+    &__cart {
+        white-space: nowrap;
+        padding: 0 12px;
+    }
+}

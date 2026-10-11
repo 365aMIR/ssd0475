@@ -1,0 +1,60 @@
+---
+/**
+ * The ssdssd wordmark from the radio site's Sticker: click to step through the
+ * nine colourways. Here it sits still in the header (no dragging) and
+ * remembers the last colour per visitor. Styles: globals/_header.scss.
+ */
+interface Props {
+    /** Which colourway (1–9) a first-time visitor sees. */
+    start?: number;
+}
+
+const { start = 8 } = Astro.props;
+const frames = Array.from({ length: 9 }, (_, i) => `/img/shop/logo-${i + 1}.png`);
+---
+
+<button
+    type="button"
+    class="block-header__logo"
+    data-logo-cycle
+    title="southsidedinero — klik om te kleuren"
+>
+    <img
+        src={frames[start - 1]}
+        alt="southsidedinero"
+        width="1146"
+        height="576"
+        draggable="false"
+    />
+</button>
+
+<script is:inline define:vars={{ frames, start }}>
+    (() => {
+        const KEY = 'ssd:logo';
+        let i = start - 1;
+        try {
+            const raw = localStorage.getItem(KEY);
+            const saved = raw === null ? NaN : Number(raw);
+            if (Number.isInteger(saved) && saved >= 0 && saved < frames.length) i = saved;
+        } catch {}
+
+        const paint = () =>
+            document.querySelectorAll('[data-logo-cycle] img').forEach((img) => {
+                img.src = frames[i];
+            });
+        paint();
+
+        document.querySelectorAll('[data-logo-cycle]').forEach((btn) =>
+            btn.addEventListener('click', () => {
+                i = (i + 1) % frames.length;
+                paint();
+                try {
+                    localStorage.setItem(KEY, String(i));
+                } catch {}
+            }),
+        );
+
+        // Warm the other colourways so a click swaps without a flash.
+        addEventListener('load', () => frames.forEach((src) => (new Image().src = src)));
+    })();
+</script>

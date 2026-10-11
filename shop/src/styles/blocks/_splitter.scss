@@ -1,0 +1,10 @@
+@use '../utils/variables' as *;
+
+// Black/white checker strip between blocks.
+.block-splitter {
+    height: 16px;
+    border: 2px solid $black;
+    background-color: $white;
+    background-image: conic-gradient($black 0 25%, $white 0 50%, $black 0 75%, $white 0);
+    background-size: 16px 16px;
+}

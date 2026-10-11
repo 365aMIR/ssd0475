@@ -1,0 +1,150 @@
+@use '../utils/variables' as *;
+
+.block-desktop {
+    display: flex;
+    flex-direction: column;
+    scroll-margin-top: 16px;
+
+    // Blue/white checker, the shop's counterpart to the pink page background.
+    &-area {
+        position: relative;
+        height: 680px;
+        overflow: hidden;
+        background-color: $white;
+        background-image: conic-gradient($skyblue 0 25%, $white 0 50%, $skyblue 0 75%, $white 0);
+        background-size: 32px 32px;
+    }
+
+    &-icons {
+        list-style: none;
+        margin: 0;
+        padding: 16px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 112px;
+    }
+
+    &-icon {
+        width: 100%;
+        padding: 8px 2px;
+        background: transparent;
+        border: 2px dashed transparent;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        cursor: crosshair;
+        color: $black;
+
+        & img {
+            width: 56px;
+            height: 46px;
+            object-fit: contain;
+        }
+
+        &:hover,
+        &:focus-visible {
+            border-color: $black;
+        }
+
+        &-label {
+            font-family: $tiny5;
+            font-size: 14px;
+            line-height: 1.2;
+            background-color: $white;
+            padding: 1px 4px;
+        }
+
+        &:hover &-label {
+            background-color: $navy;
+            color: $white;
+        }
+    }
+
+    // The libre-dash taskbar, sat inside the section.
+    &-taskbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 40px;
+        padding: 0 10px;
+        background-color: $taskgrey;
+        border-top: 2px solid $black;
+    }
+
+    &-start {
+        flex: none;
+        font-family: $tiny5;
+        font-size: 16px;
+        padding: 3px 10px;
+        background-color: $midgrey;
+        border: 2px solid $black;
+        border-bottom-width: 4px;
+    }
+
+    &-dock {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        min-width: 0;
+
+        // Buttons are created by the window manager.
+        & .taskbar-app {
+            font-family: $tiny5;
+            font-size: 16px;
+            background-color: $midgrey;
+            border: 2px solid $black;
+            border-bottom-width: 4px;
+            border-top: none;
+            color: $black;
+            padding: 3px 10px;
+            cursor: crosshair;
+            white-space: nowrap;
+
+            &:hover {
+                background-color: $green;
+            }
+
+            &[data-active='true'] {
+                background-color: $black;
+                color: $white;
+            }
+        }
+    }
+
+    &-brand {
+        margin-left: auto;
+        flex: none;
+        font-family: $tiny5;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .block-desktop {
+        &-area {
+            height: 760px;
+        }
+
+        &-icons {
+            flex-direction: row;
+            width: auto;
+            padding: 10px 8px;
+            gap: 4px;
+
+            & li {
+                flex: 1 1 0;
+                min-width: 0;
+            }
+        }
+
+        &-icon-label {
+            font-size: 12px;
+        }
+
+        &-brand {
+            display: none;
+        }
+    }
+}

@@ -1,0 +1,33 @@
+---
+import '../styles/style.scss';
+
+interface Props {
+    title: string;
+    description?: string;
+}
+
+const { title, description = 'southsidedinero — clothing & music from Roermond (0475).' } = Astro.props;
+---
+
+<html lang="nl">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1"
+        />
+        <meta
+            name="description"
+            content={description}
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            href="/img/shop/roermoney.png"
+        />
+        <title>{title}</title>
+    </head>
+    <body>
+        <slot />
+    </body>
+</html>

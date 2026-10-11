@@ -1,0 +1,89 @@
+@use '../utils/variables' as *;
+
+html {
+    scroll-behavior: smooth;
+}
+
+// The pink transparency checkerboard from the radio site, same 48px tile.
+body {
+    margin: 0;
+    font-family: $ojuju;
+    color: $black;
+    background-color: $white;
+    background-image: conic-gradient($pink 0 25%, $white 0 50%, $pink 0 75%, $white 0);
+    background-size: 48px 48px;
+}
+
+.container {
+    // SET MAX WIDTH HERE //
+    max-width: 1200px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+}
+
+a {
+    color: $black;
+    transition: 0.2s ease-in;
+
+    &:hover {
+        color: $ssdred;
+    }
+}
+
+p {
+    margin: 0;
+}
+
+img {
+    max-width: 100%;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    padding: 40px 0 64px;
+}
+
+.box {
+    background-color: $white;
+    border: 2px solid $black;
+}
+
+.shadow {
+    box-shadow: 6px 6px 0 $black;
+}
+
+.link-mono {
+    font-family: $space-mono;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.align-items-center {
+    align-items: center;
+}

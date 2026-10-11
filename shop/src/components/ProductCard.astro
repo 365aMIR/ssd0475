@@ -1,0 +1,45 @@
+---
+// Styles: blocks/_products.scss
+import { euro, type Product } from '../data/products';
+
+interface Props {
+    product: Product;
+}
+
+const { product } = Astro.props;
+---
+
+<article class="block-products-card box">
+    <button
+        type="button"
+        class="block-products-shot"
+        data-product-open={product.id}
+        aria-label={`Bekijk ${product.name}`}
+    >
+        <img
+            src={product.photos[0]}
+            alt=""
+            loading="lazy"
+        />
+        {
+            product.photos[1] && (
+                <img
+                    class="block-products-shot-hover"
+                    src={product.photos[1]}
+                    alt=""
+                    loading="lazy"
+                />
+            )
+        }
+        {product.isNew ? <span class="block-products-tag new">new</span> : <span class="block-products-tag brand">southsidedinero</span>}
+        <span class="block-products-strip">{product.code}</span>
+    </button>
+    <p class="block-products-price">{euro(product.price)}</p>
+    <button
+        type="button"
+        class="block-products-more button text"
+        data-product-open={product.id}
+    >
+        bekijken →
+    </button>
+</article>

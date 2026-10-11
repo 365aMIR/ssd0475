@@ -1,0 +1,60 @@
+@use '../utils/variables' as *;
+
+.block-footer {
+    background-color: $white;
+    border-top: 2px solid $black;
+
+    &-wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+        gap: 28px;
+        padding: 40px 0;
+        font-family: $taviraj;
+        font-size: 15px;
+    }
+
+    &-col {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    &-title {
+        font-family: $ojuju;
+        font-size: 18px;
+        font-weight: 800;
+        margin-bottom: 4px;
+    }
+
+    &-brand {
+        & img {
+            width: 170px;
+            height: auto;
+        }
+
+        & span {
+            font-family: $tiny5;
+            font-size: 14px;
+        }
+    }
+
+    &-bottom {
+        background-color: $lightgrey;
+        border-top: 2px solid $black;
+        font-family: $space-mono;
+        font-size: 12px;
+
+        &-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 0;
+        }
+
+        &-links {
+            display: flex;
+            gap: 16px;
+        }
+    }
+}

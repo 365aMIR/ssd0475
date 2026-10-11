@@ -1,0 +1,133 @@
+@use '../utils/variables' as *;
+
+.block-products {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    scroll-margin-top: 16px;
+
+    &-head {
+        padding: 12px 16px;
+    }
+
+    &-title {
+        font-size: 26px;
+        font-weight: 800;
+    }
+
+    &-count {
+        margin-left: 8px;
+        font-family: $space-mono;
+        font-size: 13px;
+        font-weight: 400;
+        color: $ssdred;
+    }
+
+    &-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+        gap: 20px;
+    }
+
+    &-card {
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    // The radio card's blue body and green divider, used as the photo frame.
+    &-shot {
+        position: relative;
+        aspect-ratio: 1 / 1;
+        width: 100%;
+        padding: 0 0 40px;
+        background-color: $white;
+        border: 2px solid $black;
+        border-bottom-width: 6px;
+        cursor: crosshair;
+        overflow: hidden;
+
+        & img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            background-color: $white;
+        }
+
+        // Second photo (the back) laid over the first, shown on hover.
+        &-hover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: calc(100% - 40px) !important;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        &:hover &-hover,
+        &:focus-visible &-hover {
+            opacity: 1;
+        }
+    }
+
+    &-strip {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 40px;
+        background-color: $blue;
+        border-top: 6px solid $green;
+        color: $white;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        font-family: $tiny5;
+        font-size: 16px;
+    }
+
+    &-tag {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        padding: 2px 7px;
+
+        &.new {
+            background-color: $yellow;
+            border: 2px solid $black;
+            font-family: $tiny5;
+            font-size: 14px;
+        }
+
+        &.brand {
+            background-color: $ssdred;
+            color: $white;
+            font-family: $space-mono;
+            font-weight: 700;
+            font-size: 12px;
+        }
+    }
+
+    &-price {
+        font-family: $space-mono;
+        font-weight: 700;
+        font-size: 14px;
+        color: $ssdred;
+    }
+
+    &-more {
+        align-self: flex-start;
+        margin-top: auto;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .block-products {
+        &-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+    }
+}

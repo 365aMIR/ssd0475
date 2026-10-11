@@ -1,0 +1,109 @@
+@use '../utils/variables' as *;
+
+.block-hero {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+    gap: 32px;
+    align-items: center;
+
+    &-copy {
+        padding: 36px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    &-annotation {
+        align-self: flex-start;
+        background-color: $navy;
+        color: $white;
+        font-family: $tiny5;
+        font-size: 15px;
+        padding: 4px 10px;
+        transform: rotate(-3deg);
+    }
+
+    &-header {
+        font-size: 56px;
+        line-height: 1.02;
+        font-weight: 800;
+    }
+
+    &-content {
+        font-family: $taviraj;
+        font-size: 17px;
+        line-height: 1.55;
+        max-width: 460px;
+    }
+
+    &-button-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+    }
+
+    // A window from the radio site, minus the manager: just the frame.
+    &-window {
+        background-color: $grey;
+        border: 2px solid $black;
+        border-bottom-width: 6px;
+
+        &-bar {
+            background-color: $red;
+            color: $white;
+            border-bottom: 2px solid $black;
+            padding: 2px 10px;
+            font-family: $taviraj;
+            font-size: 20px;
+        }
+
+        &-body {
+            margin: 10px;
+            background-color: $white;
+            border: 2px solid $black;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    &-shot {
+        padding: 0;
+        border: none;
+        background: none;
+        cursor: crosshair;
+
+        // Transparent border at rest, so the hover border doesn't shift the layout.
+        & img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: contain;
+            border: 1px solid transparent;
+        }
+
+        &:hover img {
+            border: 1px solid $black;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .block-hero {
+        &-copy {
+            padding: 24px;
+        }
+
+        &-header {
+            font-size: 40px;
+        }
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .block-hero {
+        &-header {
+            font-size: 34px;
+        }
+    }
+}

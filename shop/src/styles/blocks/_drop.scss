@@ -1,0 +1,48 @@
+@use '../utils/variables' as *;
+
+.block-drop {
+    &-path {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 12px;
+        font-family: $tiny5;
+        font-size: 14px;
+    }
+
+    &-files {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    &-file {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 8px;
+        background-color: $white;
+        border: 2px solid $black;
+        cursor: crosshair;
+        text-align: left;
+
+        &:hover {
+            background-color: $green;
+        }
+
+        & img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: contain;
+            background-color: $white;
+        }
+
+        & span {
+            font-family: $tiny5;
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+}

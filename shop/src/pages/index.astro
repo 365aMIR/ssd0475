@@ -1,0 +1,562 @@
+---
+import Base from '../layouts/Base.astro';
+import Window from '../components/Window.astro';
+import Radio from '../components/Radio.astro';
+import DesktopSection from '../components/DesktopSection.astro';
+import ProductCard from '../components/ProductCard.astro';
+import ProductModal from '../components/ProductModal.astro';
+import CartReceipt from '../components/CartReceipt.astro';
+import LogoCycle from '../components/LogoCycle.astro';
+import { products, SHIPPING } from '../data/products';
+import { ep } from '../data/ep';
+import { getBeats } from '../lib/beats';
+
+// Server-rendered like libre-dash: the radio reads public/beats on each request.
+export const prerender = false;
+
+const radioCards = getBeats();
+
+const icons = [
+    { win: 'drop', label: 'drop_001' },
+    { win: 'ep', label: "mama's tuin", icon: ep.cover },
+    { win: 'radio', label: 'radio', icon: '/img/cd_audio_cd-0_256.png' },
+    { win: 'roermoney', label: 'roermoney', icon: '/img/shop/roermoney.png' },
+];
+
+const quickNav = [
+    { label: 'drop_001', win: 'drop' },
+    { label: "mama's tuin", win: 'ep' },
+    { label: 'radio', win: 'radio' },
+    { label: 'roermoney', win: 'roermoney' },
+];
+
+const clipTrack = ep.tracks[ep.videoTrack];
+const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.jpg';
+---
+
+<Base title="southsidedinero">
+    <div class="block-top-header">nieuwe drop is live · rojo &amp; angelo</div>
+
+    <header class="block-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="block-header-wrapper">
+                        <LogoCycle />
+                        <button
+                            type="button"
+                            class="block-header__cart button pink"
+                            data-cart-open
+                        >
+                            <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                aria-hidden="true"
+                            >
+                                <path d="M5 8h14l-1.5 12h-11z"></path>
+                                <path d="M9 8V6a3 3 0 0 1 6 0v2"></path>
+                            </svg>
+                            cart (<span data-cart-count>0</span>)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="main">
+                    <section class="block-hero">
+                        <div class="block-hero-copy box shadow">
+                            <h6 class="block-hero-annotation">nieuwe drop</h6>
+                            <h1 class="block-hero-header">rojo &amp; angelo zijn binnen</h1>
+                            <p class="block-hero-content">[Korte drop-tekst: materiaal, pasvorm, oplage.]</p>
+                            <div class="block-hero-button-wrapper">
+                                <a
+                                    class="button yellow"
+                                    href="#shop"
+                                    >shop de drop →</a
+                                >
+                                <a
+                                    class="link-mono"
+                                    href="#desktop"
+                                    data-open-win="ep"
+                                    >luister mama's tuin →</a
+                                >
+                            </div>
+                        </div>
+
+                        <div class="block-hero-window shadow">
+                            <div class="block-hero-window-bar">rojo_angelo.jpg</div>
+                            <div class="block-hero-window-body">
+                                {
+                                    products.map((p) => (
+                                        <button
+                                            type="button"
+                                            class="block-hero-shot"
+                                            data-product-open={p.id}
+                                            aria-label={`Bekijk ${p.name}`}
+                                        >
+                                            <img
+                                                src={p.photos[0]}
+                                                alt=""
+                                            />
+                                        </button>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                    </section>
+
+                    <nav
+                        class="block-quicknav"
+                        aria-label="Snel naar"
+                    >
+                        {
+                            quickNav.map((item) => (
+                                <a
+                                    class="block-quicknav-link"
+                                    href="#desktop"
+                                    data-open-win={item.win}
+                                >
+                                    {item.label}
+                                </a>
+                            ))
+                        }
+                    </nav>
+
+                    <section
+                        id="shop"
+                        class="block-products"
+                    >
+                        <div class="block-products-head box">
+                            <h2 class="block-products-title">
+                                vers binnen <small class="block-products-count">{products.length} pieces · meer komt eraan</small>
+                            </h2>
+                        </div>
+                        <div class="block-products-grid">
+                            {products.map((product) => <ProductCard product={product} />)}
+                        </div>
+                    </section>
+
+                    <div
+                        class="block-splitter"
+                        aria-hidden="true"
+                    >
+                    </div>
+
+                    <DesktopSection icons={icons}>
+                        <Window
+                            id="radio"
+                            title="radio"
+                            width={460}
+                        >
+                            <Radio radioCards={radioCards} />
+                        </Window>
+
+                        <Window
+                            id="drop"
+                            title="drop_001"
+                            width={520}
+                            open={false}
+                        >
+                            <div class="block-drop">
+                                <p class="block-drop-path">
+                                    <span>{products.length} items</span><span>c:\southsidedinero\drop_001</span>
+                                </p>
+                                <div class="block-drop-files">
+                                    {
+                                        products.map((p) => (
+                                            <button
+                                                type="button"
+                                                class="block-drop-file"
+                                                data-product-open={p.id}
+                                            >
+                                                <img
+                                                    src={p.photos[0]}
+                                                    alt=""
+                                                />
+                                                <span>{fileName(p.name)}</span>
+                                            </button>
+                                        ))
+                                    }
+                                </div>
+                            </div>
+                        </Window>
+
+                        <Window
+                            id="ep"
+                            title="mamas_tuin"
+                            width={520}
+                            open={false}
+                        >
+                            <div class="block-ep">
+                                <div class="block-ep-head">
+                                    <img
+                                        class="block-ep-cover"
+                                        src={ep.cover}
+                                        alt={`Cover van ${ep.title}`}
+                                        width="132"
+                                        height="132"
+                                    />
+                                    <div>
+                                        <p class="block-ep-annotation">ep · southsidedinero</p>
+                                        <h3 class="block-ep-header">{ep.title}</h3>
+                                        <p class="block-ep-meta">{ep.artist} · {ep.year} · {ep.summary}</p>
+                                        <p class="block-ep-meta">uit sinds {ep.released}</p>
+                                        {
+                                            ep.listenUrl && (
+                                                <a
+                                                    class="link-mono"
+                                                    href={ep.listenUrl}
+                                                    target="_blank"
+                                                    rel="noopener"
+                                                >
+                                                    luister op spotify →
+                                                </a>
+                                            )
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="block-ep-video">
+                                    <span class="block-ep-video-label">{clipTrack.title}.mp4 · videoclip</span>
+                                    {
+                                        /* Thumbnail first, YouTube player only after a click: the page
+                                        stays light and the play is a real view on the channel. */
+                                    }
+                                    {
+                                        ep.youtubeId ? (
+                                            <button
+                                                type="button"
+                                                class="block-ep-yt"
+                                                data-yt-id={ep.youtubeId}
+                                                data-yt-title={`${clipTrack.title} — ${ep.artist}`}
+                                                aria-label={`Speel de videoclip van ${clipTrack.title} af`}
+                                            >
+                                                <img
+                                                    src={`https://i.ytimg.com/vi/${ep.youtubeId}/hqdefault.jpg`}
+                                                    alt=""
+                                                    loading="lazy"
+                                                />
+                                                <span
+                                                    class="block-ep-yt-play"
+                                                    aria-hidden="true"
+                                                >
+                                                    <svg
+                                                        width="22"
+                                                        height="24"
+                                                        viewBox="0 0 22 24"
+                                                    >
+                                                        <path
+                                                            d="M2 2l18 10L2 22z"
+                                                            fill="#000300"
+                                                        />
+                                                    </svg>
+                                                </span>
+                                            </button>
+                                        ) : ep.video ? (
+                                            <video
+                                                src={ep.video}
+                                                poster={ep.videoPoster ?? undefined}
+                                                controls
+                                                preload="none"
+                                                playsinline
+                                            />
+                                        ) : (
+                                            <span class="block-ep-video-empty">clip komt hier</span>
+                                        )
+                                    }
+                                </div>
+                                {
+                                    ep.youtubeId && (
+                                        <a
+                                            class="link-mono block-ep-yt-link"
+                                            href={`https://www.youtube.com/watch?v=${ep.youtubeId}`}
+                                            target="_blank"
+                                            rel="noopener"
+                                        >
+                                            bekijk op youtube →
+                                        </a>
+                                    )
+                                }
+
+                                <div class="block-ep-player">
+                                    <button
+                                        type="button"
+                                        class="button grey"
+                                        id="ep-toggle"
+                                        aria-pressed="false"
+                                    >
+                                        play
+                                    </button>
+                                    <div
+                                        class="block-ep-progress"
+                                        id="ep-progress"
+                                        role="slider"
+                                        tabindex="0"
+                                        aria-label="Positie in nummer"
+                                        aria-valuemin="0"
+                                        aria-valuemax="100"
+                                        aria-valuenow="0"
+                                    >
+                                        <div
+                                            class="block-ep-progress-bar"
+                                            id="ep-progress-bar"
+                                        >
+                                        </div>
+                                    </div>
+                                    <span
+                                        class="block-ep-clock"
+                                        id="ep-clock"
+                                        >0:00</span
+                                    >
+                                    <audio
+                                        id="ep-audio"
+                                        preload="none"
+                                    ></audio>
+                                </div>
+
+                                <ol class="block-ep-tracks">
+                                    {
+                                        ep.tracks.map((t, i) => (
+                                            <li>
+                                                <button
+                                                    type="button"
+                                                    class="block-ep-track"
+                                                    data-ep-track={i}
+                                                    data-src={encodeURI(t.file)}
+                                                    aria-label={`Speel ${t.title}`}
+                                                >
+                                                    <span class="block-ep-nr">{i + 1}</span>
+                                                    <span class="block-ep-name">{t.title}</span>
+                                                    {i === ep.videoTrack && <span class="block-ep-clip">▶ clip</span>}
+                                                    <span class="block-ep-time">{t.time}</span>
+                                                </button>
+                                            </li>
+                                        ))
+                                    }
+                                </ol>
+
+                                {
+                                    ep.spotifyAlbumId && (
+                                        <div class="block-ep-spotify">
+                                            <span class="block-ep-spotify-label">spotify.exe</span>
+                                            <iframe
+                                                title={`${ep.title} op Spotify`}
+                                                src={`https://open.spotify.com/embed/album/${ep.spotifyAlbumId}?utm_source=generator&theme=0`}
+                                                width="100%"
+                                                height="152"
+                                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                                loading="lazy"
+                                            />
+                                        </div>
+                                    )
+                                }
+                            </div>
+                        </Window>
+
+                        <Window
+                            id="roermoney"
+                            title="roermoney"
+                            width={500}
+                            open={false}
+                        >
+                            <div class="block-roermoney">
+                                <img
+                                    class="block-roermoney-badge"
+                                    src="/img/shop/roermoney-0475.png"
+                                    alt="roermoney southsidedinero 0475"
+                                    width="150"
+                                    height="150"
+                                />
+                                <div class="block-roermoney-text">
+                                    <h3 class="block-roermoney-header">Gemaakt in Roermond</h3>
+                                    <p class="block-roermoney-content">[Merkverhaal: wie su00ki is, waarom southsidedinero, wat 0475 betekent.]</p>
+                                </div>
+                            </div>
+                        </Window>
+                    </DesktopSection>
+
+                    <div
+                        class="block-splitter"
+                        aria-hidden="true"
+                    >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="block-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="block-footer-wrapper">
+                        <div class="block-footer-col block-footer-brand">
+                            <img
+                                src="/img/shop/logo-8.png"
+                                alt="southsidedinero"
+                                width="170"
+                                height="85"
+                            />
+                            <span>roermoney · 0475</span>
+                        </div>
+                        <div class="block-footer-col">
+                            <h3 class="block-footer-title">Shop</h3>
+                            <a href="#shop">Nieuw</a>
+                            <a
+                                href="#desktop"
+                                data-open-win="drop"
+                                >drop_001</a
+                            >
+                        </div>
+                        <div class="block-footer-col">
+                            <h3 class="block-footer-title">Service</h3>
+                            <a href="#">Bestellen, verzenden en betalen</a>
+                            <a href="#">Ruilen en retourneren</a>
+                            <a href="#">Veelgestelde vragen</a>
+                        </div>
+                        <div class="block-footer-col">
+                            <h3 class="block-footer-title">Algemeen</h3>
+                            <a
+                                href="#desktop"
+                                data-open-win="roermoney"
+                                >Over southsidedinero</a
+                            >
+                            <a
+                                href="#desktop"
+                                data-open-win="radio"
+                                >Radio</a
+                            >
+                            <a href="#">Contact</a>
+                            <a href="#">Instagram</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="block-footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="block-footer-bottom-wrapper">
+                            <span>© southsidedinero</span>
+                            <span class="block-footer-bottom-links"><a href="#">Algemene voorwaarden</a><a href="#">Privacy</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <ProductModal />
+    <CartReceipt />
+
+    <script
+        type="application/json"
+        id="ssd-products"
+        set:html={JSON.stringify({ products, shipping: SHIPPING })}
+    />
+    <script>
+        import { startShop } from '../lib/shop-client';
+        startShop();
+
+        // mama's tuin player: one <audio>, the tracklist picks what it plays and it
+        // runs on through the EP. Only one thing makes noise at a time, so it and
+        // the radio pause each other.
+        {
+            const audio = document.getElementById('ep-audio') as HTMLAudioElement | null;
+            const toggle = document.getElementById('ep-toggle');
+            const bar = document.getElementById('ep-progress-bar');
+            const progress = document.getElementById('ep-progress');
+            const clock = document.getElementById('ep-clock');
+            const tracks = [...document.querySelectorAll<HTMLButtonElement>('[data-ep-track]')];
+            let current = -1;
+
+            const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+
+            const load = (i: number) => {
+                if (!audio || !tracks[i]) return;
+                current = i;
+                audio.src = tracks[i].dataset.src ?? '';
+                tracks.forEach((t, k) => t.setAttribute('aria-current', String(k === i)));
+                audio.play().catch((err) => console.error('Error playing track:', err));
+            };
+
+            if (audio && toggle && bar && progress && clock) {
+                tracks.forEach((t, i) =>
+                    t.addEventListener('click', () => {
+                        if (i === current) audio.paused ? audio.play() : audio.pause();
+                        else load(i);
+                    }),
+                );
+
+                toggle.addEventListener('click', () => {
+                    if (current < 0) return load(0);
+                    audio.paused ? audio.play() : audio.pause();
+                });
+
+                audio.addEventListener('play', () => {
+                    toggle.textContent = 'pause';
+                    toggle.setAttribute('aria-pressed', 'true');
+                    document.querySelectorAll<HTMLAudioElement>('.audio-element').forEach((a) => a.pause());
+                });
+                audio.addEventListener('pause', () => {
+                    toggle.textContent = 'play';
+                    toggle.setAttribute('aria-pressed', 'false');
+                });
+                audio.addEventListener('timeupdate', () => {
+                    const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+                    bar.style.width = `${pct}%`;
+                    progress.setAttribute('aria-valuenow', String(Math.round(pct)));
+                    clock.textContent = fmt(audio.currentTime);
+                });
+                audio.addEventListener('ended', () => {
+                    if (current < tracks.length - 1) load(current + 1);
+                });
+
+                // Click or arrow keys on the bar to seek.
+                progress.addEventListener('click', (e) => {
+                    if (!audio.duration) return;
+                    const r = progress.getBoundingClientRect();
+                    audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
+                });
+                progress.addEventListener('keydown', (e) => {
+                    if (!audio.duration) return;
+                    if (e.key === 'ArrowRight') audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
+                    if (e.key === 'ArrowLeft') audio.currentTime = Math.max(0, audio.currentTime - 5);
+                });
+
+                // The radio starting stops the EP. Media events don't bubble, so listen
+                // in the capture phase.
+                document.addEventListener(
+                    'play',
+                    (e) => {
+                        if ((e.target as HTMLElement).classList?.contains('audio-element')) audio.pause();
+                    },
+                    true,
+                );
+            }
+        }
+
+        // Swap the YouTube thumbnail for the real player on click.
+        document.querySelectorAll<HTMLButtonElement>('[data-yt-id]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const frame = document.createElement('iframe');
+                frame.src = `https://www.youtube.com/embed/${btn.dataset.ytId}?autoplay=1&rel=0`;
+                frame.title = btn.dataset.ytTitle ?? 'videoclip';
+                frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+                frame.referrerPolicy = 'strict-origin-when-cross-origin';
+                frame.allowFullscreen = true;
+                btn.replaceWith(frame);
+            });
+        });
+    </script>
+</Base>

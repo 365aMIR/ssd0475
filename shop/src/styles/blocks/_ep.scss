@@ -1,0 +1,248 @@
+@use '../utils/variables' as *;
+
+.block-ep {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    &-head {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: flex-end;
+    }
+
+    &-cover {
+        width: 132px;
+        height: 132px;
+        object-fit: cover;
+        border: 2px solid $black;
+    }
+
+    &-annotation,
+    &-meta {
+        font-family: $space-mono;
+        font-size: 12px;
+    }
+
+    &-header {
+        margin: 2px 0 4px;
+        font-size: 40px;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    &-video {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        background-color: $black;
+        border: 2px solid $black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        & video,
+        & iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+        }
+
+        &-label {
+            position: absolute;
+            top: 8px;
+            left: 10px;
+            z-index: 1;
+            font-family: $tiny5;
+            font-size: 13px;
+            color: $green;
+            pointer-events: none;
+        }
+
+        &-empty {
+            font-family: $tiny5;
+            font-size: 16px;
+            color: $lightgrey;
+        }
+    }
+
+    // YouTube thumbnail; swapped for the real player on click.
+    &-yt {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        border: none;
+        background-color: $black;
+        cursor: crosshair;
+
+        & img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            opacity: 0.85;
+        }
+
+        &-play {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 64px;
+            height: 64px;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: $green;
+            border: 2px solid $white;
+            border-radius: 50%;
+        }
+
+        &:hover {
+            & img {
+                opacity: 1;
+            }
+
+            .block-ep-yt-play {
+                background-color: $red;
+            }
+        }
+
+        &-link {
+            align-self: flex-start;
+            margin-top: -6px;
+        }
+    }
+
+    // Same parts as the radio: the grey sizer button and the green track.
+    &-player {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    &-progress {
+        flex: 1;
+        height: 14px;
+        background-color: $white;
+        border: 2px solid $black;
+        cursor: crosshair;
+
+        &-bar {
+            width: 0%;
+            height: 100%;
+            background-color: $green;
+        }
+    }
+
+    &-clock {
+        flex: none;
+        min-width: 38px;
+        text-align: right;
+        font-family: $space-mono;
+        font-size: 12px;
+    }
+
+    &-tracks {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        background-color: $white;
+        border: 2px solid $black;
+
+        & li {
+            border-bottom: 1px solid $lightgrey;
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
+
+    &-track {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        min-height: 44px;
+        padding: 0 12px;
+        background: none;
+        border: none;
+        color: $black;
+        font-family: $tiny5;
+        font-size: 16px;
+        text-align: left;
+        cursor: crosshair;
+
+        &:hover {
+            background-color: $green;
+        }
+
+        // The one that is loaded, playing or paused.
+        &[aria-current='true'] {
+            background-color: $navy;
+            color: $white;
+
+            .block-ep-nr {
+                font-size: 0;
+
+                &::before {
+                    content: '▶';
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+
+    &-nr {
+        width: 18px;
+        font-size: 13px;
+    }
+
+    &-name {
+        flex: 1;
+    }
+
+    &-clip {
+        background-color: $green;
+        color: $black;
+        border: 1px solid $black;
+        font-size: 12px;
+        padding: 1px 6px;
+    }
+
+    &-time {
+        font-family: $space-mono;
+        font-size: 12px;
+    }
+
+    // Spotify's embed can't be restyled inside (it's their iframe), so it gets
+    // our frame around it: black box, pixel label, square corners. Theme 0 is
+    // Spotify's dark player, which sits on the black without a seam.
+    &-spotify {
+        position: relative;
+        background-color: $black;
+        border: 2px solid $black;
+        border-bottom-width: 6px;
+        padding: 26px 6px 6px;
+
+        &-label {
+            position: absolute;
+            top: 5px;
+            left: 8px;
+            font-family: $tiny5;
+            font-size: 13px;
+            color: $green;
+        }
+
+        & iframe {
+            display: block;
+            width: 100%;
+            height: 152px;
+            border: 0;
+            border-radius: 0;
+        }
+    }
+}

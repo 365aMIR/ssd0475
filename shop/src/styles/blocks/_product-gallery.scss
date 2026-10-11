@@ -1,0 +1,88 @@
+@use '../utils/variables' as *;
+
+// All photos of one product in a tall white window with the nulnanul.nl tab,
+// the same shape as the gallery on the radio site.
+.block-product-gallery {
+    padding: 34px 0 0;
+    border: none;
+    background: transparent;
+    width: min(320px, calc(100vw - 32px));
+    max-height: calc(100dvh - 32px);
+    overflow: visible;
+
+    // No dimmed overlay: the page stays visible behind the window.
+    &::backdrop {
+        background-color: transparent;
+    }
+
+    &-tab {
+        position: absolute;
+        z-index: 1;
+        top: 2px;
+        left: 0;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        background-color: $tabred;
+        color: $white;
+        font-family: $taviraj;
+        font-size: 24px;
+        line-height: 1;
+        padding: 0 18px;
+        border: 2px solid $black;
+        border-bottom: none;
+        border-radius: 12px 12px 0 0;
+    }
+
+    &-frame {
+        position: relative;
+        background-color: $white;
+        border: 2px solid $black;
+        padding: 20px 20px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        max-height: calc(100dvh - 72px);
+        overflow-y: auto;
+    }
+
+    &-close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 1;
+        width: 32px;
+        height: 32px;
+        background-color: $white;
+        border: none;
+        font-family: $space-mono;
+        font-weight: 700;
+        font-size: 15px;
+        cursor: crosshair;
+
+        &:hover {
+            background-color: $green;
+        }
+    }
+
+    &-photos {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        & img {
+            display: block;
+            width: 100%;
+            height: auto;
+            background-color: $white;
+        }
+    }
+
+    &-name {
+        text-align: center;
+        font-family: $taviraj;
+        font-weight: 400;
+        font-size: 16px;
+        text-transform: uppercase;
+    }
+}

@@ -1,0 +1,47 @@
+@use '../utils/variables' as *;
+
+.block-quicknav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: $skyblue;
+    border: 2px solid $black;
+    margin-top: -16px;
+
+    &-link {
+        padding: 14px 20px;
+        font-family: $space-mono;
+        font-weight: 700;
+        font-size: 14px;
+        text-decoration: none;
+        border-right: 2px solid $black;
+
+        &:last-child {
+            border-right: none;
+        }
+
+        &:hover {
+            color: $black;
+        }
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .block-quicknav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        &-link {
+            text-align: center;
+            border-bottom: 2px solid $black;
+
+            &:nth-child(2n) {
+                border-right: none;
+            }
+
+            &:nth-last-child(-n + 2) {
+                border-bottom: none;
+            }
+        }
+    }
+}
