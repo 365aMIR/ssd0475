@@ -1,0 +1,188 @@
+@use '../utils/variables' as *;
+
+// The log-in dialog on the locked desktop. Sits in the middle of the desktop,
+// under any window the visitor opens (windows start at z-index 11).
+.block-login {
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(520px, calc(100% - 32px));
+    background-color: $lightgrey;
+    border: 2px solid $black;
+    border-bottom-width: 6px;
+    box-shadow: 8px 8px 0 $black;
+
+    &-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 4px 6px 4px 12px;
+        background-color: $red;
+        color: $white;
+        border-bottom: 2px solid $black;
+        font-family: $taviraj;
+        font-size: 20px;
+
+        &-btns {
+            display: flex;
+            gap: 4px;
+
+            & span {
+                width: 24px;
+                height: 22px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: $midgrey;
+                border: 2px solid $black;
+                color: $black;
+                font-family: $tiny5;
+                font-size: 14px;
+            }
+        }
+    }
+
+    &-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 18px 22px;
+        background-color: $white;
+        border-bottom: 2px solid $black;
+
+        & img {
+            width: 200px;
+            height: auto;
+        }
+    }
+
+    &-tag {
+        padding: 4px 10px;
+        background-color: $black;
+        color: $green;
+        font-family: $tiny5;
+        font-size: 14px;
+        transform: rotate(4deg);
+    }
+
+    &-form {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding: 22px;
+    }
+
+    &-intro {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+
+        & svg {
+            flex: none;
+        }
+
+        & p {
+            font-family: $space-mono;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+    }
+
+    &-fields {
+        display: grid;
+        grid-template-columns: 110px minmax(0, 1fr);
+        gap: 10px;
+        align-items: center;
+
+        & label {
+            font-family: $tiny5;
+            font-size: 16px;
+        }
+
+        & input {
+            min-height: 40px;
+            padding: 0 10px;
+            background-color: $white;
+            border: 2px solid $black;
+            box-shadow: inset 3px 3px 0 $midgrey;
+            font-family: $space-mono;
+            font-size: 15px;
+            color: $black;
+
+            &:focus {
+                outline: 2px dashed $black;
+                outline-offset: 2px;
+            }
+        }
+    }
+
+    &-error {
+        padding: 6px 10px;
+        background-color: $black;
+        color: $red;
+        font-family: $tiny5;
+        font-size: 15px;
+    }
+
+    &-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        padding-top: 4px;
+
+        & button {
+            min-width: 110px;
+            min-height: 44px;
+            background-color: $midgrey;
+            border: 2px solid $black;
+            border-bottom-width: 5px;
+            font-family: $tiny5;
+            font-size: 16px;
+            color: $black;
+            cursor: crosshair;
+
+            &:hover {
+                background-color: $green;
+            }
+
+            &:active {
+                border-bottom-width: 2px;
+                transform: translateY(3px);
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .block-login {
+        top: auto;
+        bottom: 16px;
+        transform: translateX(-50%);
+
+        &-banner {
+            padding: 12px 16px;
+
+            & img {
+                width: 150px;
+            }
+        }
+
+        &-form {
+            padding: 16px;
+        }
+
+        &-fields {
+            grid-template-columns: 1fr;
+            gap: 6px;
+        }
+
+        &-buttons button {
+            flex: 1;
+            min-width: 0;
+        }
+    }
+}

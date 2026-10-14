@@ -8,6 +8,7 @@ import ProductModal from '../components/ProductModal.astro';
 import CartReceipt from '../components/CartReceipt.astro';
 import LogoCycle from '../components/LogoCycle.astro';
 import Vault from '../components/Vault.astro';
+import LoginDialog from '../components/LoginDialog.astro';
 import { products, SHIPPING } from '../data/products';
 import { ep } from '../data/ep';
 import { getBeats } from '../lib/beats';
@@ -17,13 +18,18 @@ export const prerender = false;
 
 const radioCards = getBeats();
 
+// Lockout before a drop (lib/lock.server.ts, set per request in middleware.ts):
+// visitors who haven't logged in get only the desktop with the login dialog.
+// Nothing about the products is rendered for them.
+const locked = Astro.locals.locked;
+
 const icons = [
     { win: 'drop', label: 'drop_001' },
     { win: 'ep', label: "mama's tuin", icon: ep.cover },
     { win: 'radio', label: 'radio', icon: '/img/cd_audio_cd-0_256.png' },
     { win: 'southsidedinero', label: 'southsidedinero', icon: '/img/shop/roermoney.png' },
     { win: 'vault', label: 'kluis', icon: '/img/shop/vault.svg' },
-];
+].filter((item) => !locked || item.win !== 'drop');
 
 const quickNav = [
     { label: 'drop_001', win: 'drop' },
@@ -37,165 +43,187 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
 ---
 
 <Base title="southsidedinero">
-    <div class="block-top-header"></div>
+    {
+        !locked && (
+            <>
+                <div class="block-top-header" />
 
-    <header class="block-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="block-header-wrapper">
-                        <LogoCycle />
-                        <button
-                            type="button"
-                            class="block-header__cart button pink"
-                            data-cart-open
-                        >
-                            <svg
-                                width="18"
-                                height="18"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                aria-hidden="true"
-                            >
-                                <path d="M5 8h14l-1.5 12h-11z"></path>
-                                <path d="M9 8V6a3 3 0 0 1 6 0v2"></path>
-                            </svg>
-                            cart (<span data-cart-count>0</span>)
-                        </button>
+                <header class="block-header">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="block-header-wrapper">
+                                    <LogoCycle />
+                                    <button
+                                        type="button"
+                                        class="block-header__cart button pink"
+                                        data-cart-open
+                                    >
+                                        <svg
+                                            width="18"
+                                            height="18"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            aria-hidden="true"
+                                        >
+                                            <path d="M5 8h14l-1.5 12h-11z" />
+                                            <path d="M9 8V6a3 3 0 0 1 6 0v2" />
+                                        </svg>
+                                        cart (<span data-cart-count>0</span>)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </header>
+                </header>
+            </>
+        )
+    }
 
     <main class="container">
         <div class="row">
             <div class="col-12">
                 <div class="main">
-                    <section class="block-hero">
-                        <div class="block-hero-copy box shadow">
-                            <h6 class="block-hero-annotation">koop je hoodie</h6>
-                            <h1 class="block-hero-header">drop_001</h1>
-                            <!-- <p class="block-hero-content"></p> -->
-                            <div class="block-hero-button-wrapper">
-                                <a
-                                    class="button yellow"
-                                    href="#shop"
-                                    >get fly →</a
-                                >
-                                <a
-                                    class="link-mono"
-                                    href="#desktop"
-                                    data-open-win="ep"
-                                    >luister mama's tuin →</a
-                                >
-                            </div>
-                        </div>
+                    {
+                        !locked && (
+                            <>
+                                <section class="block-hero">
+                                    <div class="block-hero-copy box shadow">
+                                        <h6 class="block-hero-annotation">koop je hoodie</h6>
+                                        <h1 class="block-hero-header">drop_001</h1>
+                                        {/* <p class="block-hero-content"></p> */}
+                                        <div class="block-hero-button-wrapper">
+                                            <a
+                                                class="button yellow"
+                                                href="#shop"
+                                            >
+                                                get fly →
+                                            </a>
+                                            <a
+                                                class="link-mono"
+                                                href="#desktop"
+                                                data-open-win="ep"
+                                            >
+                                                luister mama's tuin →
+                                            </a>
+                                        </div>
+                                    </div>
 
-                        <div class="block-hero-window shadow">
-                            <div class="block-hero-window-bar">rojo_angelo.jpg</div>
-                            <div class="block-hero-window-body">
-                                {
-                                    products.map((p) => (
-                                        <button
-                                            type="button"
-                                            class="block-hero-shot"
-                                            data-product-open={p.id}
-                                            aria-label={`Bekijk ${p.name}`}
+                                    <div class="block-hero-window shadow">
+                                        <div class="block-hero-window-bar">rojo_angelo.jpg</div>
+                                        <div class="block-hero-window-body">
+                                            {products.map((p) => (
+                                                <button
+                                                    type="button"
+                                                    class="block-hero-shot"
+                                                    data-product-open={p.id}
+                                                    aria-label={`Bekijk ${p.name}`}
+                                                >
+                                                    <img
+                                                        src={p.photos[0]}
+                                                        alt=""
+                                                    />
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <nav
+                                    class="block-quicknav"
+                                    aria-label="Snel naar"
+                                >
+                                    {quickNav.map((item) => (
+                                        <a
+                                            class="block-quicknav-link"
+                                            href="#desktop"
+                                            data-open-win={item.win}
                                         >
-                                            <img
-                                                src={p.photos[0]}
-                                                alt=""
-                                            />
-                                        </button>
-                                    ))
-                                }
-                            </div>
-                        </div>
-                    </section>
+                                            {item.label}
+                                        </a>
+                                    ))}
+                                </nav>
 
-                    <nav
-                        class="block-quicknav"
-                        aria-label="Snel naar"
-                    >
-                        {
-                            quickNav.map((item) => (
-                                <a
-                                    class="block-quicknav-link"
-                                    href="#desktop"
-                                    data-open-win={item.win}
+                                <section
+                                    id="shop"
+                                    class="block-products"
                                 >
-                                    {item.label}
-                                </a>
-                            ))
-                        }
-                    </nav>
+                                    <div
+                                        class="block-splitter"
+                                        aria-hidden="true"
+                                    ></div>
+                                    <div class="block-products-head box">
+                                        <h2 class="block-products-title">
+                                            de collectie<small class="block-products-count">{products.length} </small>
+                                        </h2>
+                                    </div>
+                                    <div class="block-products-grid">
+                                        {products.map((product) => (
+                                            <ProductCard product={product} />
+                                        ))}
+                                    </div>
+                                </section>
 
-                    <section
-                        id="shop"
-                        class="block-products"
+                                <div
+                                    class="block-splitter"
+                                    aria-hidden="true"
+                                ></div>
+                            </>
+                        )
+                    }
+
+                    <DesktopSection
+                        icons={icons}
+                        locked={locked}
+                        brand={locked ? 'drop_001 soon come soon come' : undefined}
                     >
-                        <div
-                            class="block-splitter"
-                            aria-hidden="true"
-                        >
-                        </div>
-                        <div class="block-products-head box">
-                            <h2 class="block-products-title">
-                                de collectie<small class="block-products-count">{products.length} </small>
-                            </h2>
-                        </div>
-                        <div class="block-products-grid">
-                            {products.map((product) => <ProductCard product={product} />)}
-                        </div>
-                    </section>
-
-                    <div
-                        class="block-splitter"
-                        aria-hidden="true"
-                    >
-                    </div>
-
-                    <DesktopSection icons={icons}>
                         <Window
                             id="radio"
                             title="radio"
                             width={460}
+                            open={!locked}
                         >
                             <Radio radioCards={radioCards} />
                         </Window>
 
-                        <Window
-                            id="drop"
-                            title="drop_001"
-                            width={520}
-                            open={false}
-                        >
-                            <div class="block-drop">
-                                <p class="block-drop-path">
-                                    <span>{products.length} items</span><span>c:\southsidedinero\drop_001</span>
-                                </p>
-                                <div class="block-drop-files">
-                                    {
-                                        products.map((p) => (
-                                            <button
-                                                type="button"
-                                                class="block-drop-file"
-                                                data-product-open={p.id}
-                                            >
-                                                <img
-                                                    src={p.photos[0]}
-                                                    alt=""
-                                                />
-                                                <span>{fileName(p.name)}</span>
-                                            </button>
-                                        ))
-                                    }
-                                </div>
-                            </div>
-                        </Window>
+                        {
+                            !locked && (
+                                <>
+                                    <Window
+                                        id="drop"
+                                        title="drop_001"
+                                        width={520}
+                                        open={false}
+                                    >
+                                        <div class="block-drop">
+                                            <p class="block-drop-path">
+                                                <>
+                                                    <span>{products.length} items</span>
+                                                    <span>c:\southsidedinero\drop_001</span>
+                                                </>
+                                            </p>
+                                            <div class="block-drop-files">
+                                                {products.map((p) => (
+                                                    <button
+                                                        type="button"
+                                                        class="block-drop-file"
+                                                        data-product-open={p.id}
+                                                    >
+                                                        <img
+                                                            src={p.photos[0]}
+                                                            alt=""
+                                                        />
+                                                        <span>{fileName(p.name)}</span>
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </Window>
+                                </>
+                            )
+                        }
 
                         <Window
                             id="ep"
@@ -378,14 +406,14 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                             <div class="block-roermoney">
                                 <img
                                     class="block-roermoney-badge"
-                                    src="/img/shop/roermoney-0475.png"
+                                    src="/img/shop/roermoney.png"
                                     alt="roermoney southsidedinero 0475"
                                     width="150"
                                     height="150"
                                 />
                                 <div class="block-roermoney-text">
-                                    <h3 class="block-roermoney-header">Gemaakt in Roermond</h3>
-                                    <p class="block-roermoney-content">[Merkverhaal: wie su00ki is, waarom southsidedinero, wat 0475 betekent.]</p>
+                                    <h3 class="block-roermoney-header">roertje</h3>
+                                    <p class="block-roermoney-content">enne</p>
                                 </div>
                             </div>
                         </Window>
@@ -398,49 +426,66 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                         >
                             <Vault />
                         </Window>
+                        {locked && <LoginDialog />}
                     </DesktopSection>
 
-                    <div
-                        class="block-splitter"
-                        aria-hidden="true"
-                    >
-                    </div>
+                    {
+                        !locked && (
+                            <>
+                                <div
+                                    class="block-splitter"
+                                    aria-hidden="true"
+                                ></div>
+                            </>
+                        )
+                    }
                 </div>
             </div>
         </div>
     </main>
 
-    <footer class="block-footer">
-        <img
-            class="block-footer-image"
-            src="/img/shop/nulnanul-eagle.png"
-            alt="nulnanul"
-            width="2111"
-            height="674"
-            loading="lazy"
-        />
-        <div class="block-footer-bottom">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="block-footer-bottom-wrapper">
-                            <span>© southsidedinero</span>
-                            <span class="block-footer-bottom-links"><a href="#">Algemene voorwaarden</a><a href="#">Privacy</a></span>
+    {
+        !locked && (
+            <>
+                <footer class="block-footer">
+                    <img
+                        class="block-footer-image"
+                        src="/img/shop/nulnanul-eagle.png"
+                        alt="nulnanul"
+                        width="2111"
+                        height="674"
+                        loading="lazy"
+                    />
+                    <div class="block-footer-bottom">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="block-footer-bottom-wrapper">
+                                        <span>© southsidedinero</span>
+                                        <span class="block-footer-bottom-links">
+                                            <>
+                                                <a href="#">Algemene voorwaarden</a>
+                                                <a href="#">Privacy</a>
+                                            </>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+                </footer>
 
-    <ProductModal />
-    <CartReceipt />
+                <ProductModal />
+                <CartReceipt />
 
-    <script
-        type="application/json"
-        id="ssd-products"
-        set:html={JSON.stringify({ products, shipping: SHIPPING })}
-    />
+                <script
+                    type="application/json"
+                    id="ssd-products"
+                    set:html={JSON.stringify({ products, shipping: SHIPPING })}
+                />
+            </>
+        )
+    }
     <script>
         import { startShop } from '../lib/shop-client';
         startShop();

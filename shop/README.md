@@ -82,6 +82,27 @@ or a new hash: `printf 1234 | sha256sum`. Five wrong tries locks a visitor out
 for a minute. Edit `vaultContents` for what's inside; files linked from there
 must not live in `public/`, or they're reachable without the code.
 
+## Locked until the drop
+
+Before a drop the site shows a log-in screen (the blue desktop with a
+"Log in bij southsidedinero" dialog) instead of the shop. The radio, mama's
+tuin, southsidedinero and the kluis still work behind it; the products are not
+rendered at all. After logging in a cookie keeps the visitor in for 60 days and
+they see the whole shop.
+
+- `src/lib/lock.server.ts` decides: locked by default, password checked on the
+  server, wrong guesses rate limited.
+- `src/middleware.ts` sets `Astro.locals.locked` per request; `index.astro`
+  leaves out everything product-related when it's true.
+- Product photos live in `private/products/` and are served by `/shop-img/`,
+  which answers 404 while the visitor is locked out.
+
+Set in Coolify (no code change needed):
+
+- `SITE_PASSWORD` the password. The default (`nulnanul`) is only for local
+  testing, so set this before going live. Changing it logs everyone out.
+- `SITE_LOCKED=false` on drop day opens the shop for everyone.
+
 ## Still open
 
 - **Checkout**: the receipt's checkout button is disabled. Needs a payment

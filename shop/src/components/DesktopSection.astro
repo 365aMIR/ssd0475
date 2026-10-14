@@ -16,13 +16,20 @@ export interface DesktopIcon {
 
 interface Props {
     icons: DesktopIcon[];
+    /**
+     * Lockout mode (see lib/lock.server.ts): the desktop fills the whole screen
+     * and the taskbar shows the log-in. The login dialog goes in the slot.
+     */
+    locked?: boolean;
+    /** Text on the right of the taskbar. */
+    brand?: string;
 }
 
-const { icons } = Astro.props;
+const { icons, locked = false, brand = 'southsidedinero' } = Astro.props;
 ---
 
 <section
-    class="block-desktop box shadow"
+    class:list={['block-desktop', locked ? 'block-desktop--locked' : 'box shadow']}
     aria-label="southsidedinero desktop"
 >
     <div
@@ -42,12 +49,12 @@ const { icons } = Astro.props;
                             data-open-win={item.win}
                         >
                             {item.icon ? (
-                                    <img
-                                        src={item.icon}
-                                        alt=""
-                                        width="56"
-                                        height="46"
-                                    />
+                                <img
+                                    src={item.icon}
+                                    alt=""
+                                    width="56"
+                                    height="46"
+                                />
                             ) : (
                                 <svg
                                     width="56"
@@ -79,12 +86,13 @@ const { icons } = Astro.props;
     </div>
 
     <footer class="block-desktop-taskbar">
+        {locked && <span class="block-desktop-login">log in</span>}
         <div
             class="block-desktop-dock"
             data-taskbar-dock
         >
         </div>
-        <span class="block-desktop-brand">southsidedinero</span>
+        <span class="block-desktop-brand">{brand}</span>
     </footer>
 </section>
 

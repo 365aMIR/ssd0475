@@ -1,0 +1,116 @@
+---
+/**
+ * The login screen while the site is locked: a Windows-style log-in dialog in
+ * the middle of the desktop. Posts to /api/login, which checks the password on
+ * the server (lib/lock.server.ts).
+ * Styles: blocks/_login.scss
+ */
+const status = Astro.url.searchParams.get('login');
+const message = status === 'fout' ? 'verkeerd wachtwoord, probeer opnieuw.' : status === 'wacht' ? 'te vaak geprobeerd. wacht een minuut.' : null;
+---
+
+<section
+    class="block-login"
+    role="dialog"
+    aria-labelledby="login-title"
+>
+    <header class="block-login-bar">
+        <span id="login-title">login</span>
+        <span
+            class="block-login-bar-btns"
+            aria-hidden="true"
+            ><span>?</span><span>x</span></span
+        >
+    </header>
+
+    <div class="block-login-banner">
+        <img
+            src="/img/shop/logo-1.png"
+            alt="southsidedinero"
+            width="200"
+            height="100"
+        />
+        <img
+            src="/img/shop/nulnanul-eagle.png"
+            alt="southsidedinero"
+            width="200"
+            height="100"
+        />
+        <!-- <span class="block-login-tag"></span> -->
+    </div>
+
+    <form
+        class="block-login-form"
+        method="post"
+        action="/api/login"
+    >
+        <div class="block-login-intro">
+            <svg
+                width="44"
+                height="52"
+                viewBox="0 0 56 64"
+                aria-hidden="true"
+            >
+                <path
+                    d="M14 28V18a14 14 0 0 1 28 0v10"
+                    fill="none"
+                    stroke="#000300"
+                    stroke-width="5"
+                ></path>
+                <rect
+                    x="4"
+                    y="28"
+                    width="48"
+                    height="34"
+                    fill="#f5ee5a"
+                    stroke="#000300"
+                    stroke-width="2"
+                ></rect>
+                <rect
+                    x="25"
+                    y="38"
+                    width="6"
+                    height="12"
+                    fill="#000300"
+                ></rect>
+            </svg>
+            <p>je moet wachten.</p>
+        </div>
+
+        <div class="block-login-fields">
+            <label for="login-user">user:</label>
+            <input
+                id="login-user"
+                type="text"
+                value="£su00ki"
+                readonly
+                autocomplete="username"
+            />
+            <label for="login-password">password:</label>
+            <input
+                id="login-password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                required
+                autofocus
+            />
+        </div>
+
+        {
+            message && (
+                <p
+                    class="block-login-error"
+                    role="alert"
+                >
+                    {message}
+                </p>
+            )
+        }
+
+        <div class="block-login-buttons">
+            <button type="submit">ok</button>
+            <button type="reset">cancel</button>
+        </div>
+    </form>
+</section>

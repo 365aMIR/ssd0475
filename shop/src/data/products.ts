@@ -11,7 +11,11 @@ export interface Product {
     /** Yellow "new" tag; off shows the red southsidedinero tag instead. */
     isNew: boolean;
     sizes: string[];
-    /** First one is the card image; all of them go in the popup slider. */
+    /**
+     * First one is the card image; all of them go in the popup slider.
+     * Files live in private/products/ and are served by /shop-img/, so they stay
+     * hidden while the site is locked (see lib/lock.server.ts).
+     */
     photos: string[];
     /** Class put on the receipt while this product is in the cart (stripes, see blocks/_cart.scss). */
     cartClass?: string;
@@ -26,7 +30,7 @@ export const products: Product[] = [
         price: 79,
         isNew: true,
         sizes: ['s', 'm', 'l', 'xl'],
-        photos: ['/img/shop/rojo_front.jpg', '/img/shop/rojo_back.jpg'],
+        photos: ['/shop-img/rojo_front.jpg', '/shop-img/rojo_back.jpg'],
         cartClass: 'rojo',
     },
     {
@@ -37,7 +41,7 @@ export const products: Product[] = [
         price: 79,
         isNew: true,
         sizes: ['s', 'm', 'l', 'xl'],
-        photos: ['/img/shop/angelo_front.jpg', '/img/shop/angelo_back.jpg'],
+        photos: ['/shop-img/angelo_front.jpg', '/shop-img/angelo_back.jpg'],
         cartClass: 'angelo',
     },
 ];

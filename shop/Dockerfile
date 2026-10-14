@@ -12,6 +12,8 @@ ENV NODE_ENV=production
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 COPY --from=build /app/dist ./dist
+# Product photos, served by /shop-img/ only to visitors who may see them.
+COPY --from=build /app/private ./private
 
 # The node adapter binds to localhost unless told otherwise, which the Coolify
 # proxy cannot reach.

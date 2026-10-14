@@ -113,12 +113,38 @@
         }
     }
 
+    // Lockout: the desktop is the whole screen, the page behind it doesn't scroll.
+    &--locked {
+        position: fixed;
+        inset: 0;
+        z-index: 40;
+
+        & .block-desktop-area {
+            flex: 1;
+            height: auto;
+        }
+    }
+
+    &-login {
+        flex: none;
+        font-family: $tiny5;
+        font-size: 16px;
+        padding: 3px 10px;
+        background-color: $black;
+        color: $white;
+        border: 2px solid $black;
+    }
+
     &-brand {
         margin-left: auto;
         flex: none;
         font-family: $tiny5;
         font-size: 14px;
     }
+}
+
+body:has(.block-desktop--locked) {
+    overflow: hidden;
 }
 
 @media screen and (max-width: 576px) {

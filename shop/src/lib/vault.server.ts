@@ -13,7 +13,7 @@ const PIN_HASH = '982d3994761cb91e24a4ee16f54db6e5df4d66e9f0c97a4996e59d738810d3
 /** What's behind the door. Swap the placeholders for the real thing. */
 export const vaultContents = {
     title: 'kluis',
-    note: '[Wat zit er in de kluis? Bijvoorbeeld een unreleased track, een kortingscode of een eerste blik op drop_002.]',
+    note: '[timer]',
     items: [] as { label: string; href: string }[],
 };
 
