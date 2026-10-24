@@ -17,7 +17,7 @@
     box-shadow: 3px 3px 0 $black;
     cursor: crosshair;
 
-    & svg{
+    & svg {
         margin-right: 8px;
     }
 
@@ -78,8 +78,12 @@
     font-family: $tiny5;
     font-size: 16px;
     cursor: crosshair;
+    color: $black;
 
     &:hover {
         background-color: $green;
+    }
+    &:focus{
+        outline: none;
     }
 }

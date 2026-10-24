@@ -23,6 +23,20 @@
         padding: 4px 10px;
         transform: rotate(-3deg);
         font-weight: 100;
+        position: relative;
+        display: flex;
+        justify-content: center;
+
+        &::after {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 3px;
+            height: 20px;
+            background: #000000;
+            z-index: -1;
+            top: 100%;
+        }
     }
 
     &-header {

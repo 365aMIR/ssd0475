@@ -146,7 +146,6 @@
             border: 2px solid $black;
             box-shadow: 2px 2px 0 $black;
             font-family: $tiny5;
-            font-size: 16px;
             cursor: crosshair;
 
             &[aria-checked='true'] {
@@ -196,6 +195,7 @@
             border: 2px solid $black;
             font-family: $tiny5;
             font-size: 18px;
+            color: $black;
             cursor: crosshair;
         }
     }
