@@ -8,6 +8,8 @@ import { backendFetch, hasBackend } from './backend.server';
 export const DEFAULT_CONTENT = {
     header: {
         ticker: "drop_001 nu live\nrojo hoodie\nangelo hoodie\nmama's tuin uit nu\n0475 roermond\nnulnanul",
+        bonLabel: 'BON #',
+        bonButton: 'bekijk bon',
     },
     hero: {
         annotation: 'ROERMONEY',
@@ -16,6 +18,8 @@ export const DEFAULT_CONTENT = {
         button: 'get fly →',
         epLink: "mama's tuin →",
         windowTitle: 'rojo_angelo.jpg',
+        /** Photo behind the hero; '' = the one in blocks/_hero.scss. */
+        background: '',
     },
     shop: {
         title: 'shoppa',
@@ -77,7 +81,12 @@ function merge(raw: Raw): SiteContent {
         if (!saved) continue;
         for (const key of Object.keys(fields)) {
             const value = saved[key];
-            if (Array.isArray(value)) {
+            if (value && typeof value === 'object' && 'filename' in value) {
+                // An upload (e.g. the hero photo): private in the admin, so it goes
+                // through the shop's own /shop-img/ route, like the product photos.
+                const filename = (value as { filename?: string | null }).filename;
+                if (filename) fields[key] = `/shop-img/${filename}`;
+            } else if (Array.isArray(value)) {
                 const rows = value.filter((row) => row && typeof row.label === 'string' && row.label.trim());
                 if (rows.length) fields[key] = rows.map((row) => ({ label: row.label, url: row.url || '#' }));
             } else if (typeof value === 'string' && value.trim()) {
@@ -97,7 +106,7 @@ export async function getContent(): Promise<SiteContent> {
     if (cache && Date.now() - cache.at < CACHE_MS) return cache.data;
 
     try {
-        const res = await backendFetch('/api/globals/site-content?depth=0');
+        const res = await backendFetch('/api/globals/site-content?depth=1');
         if (!res.ok) throw new Error(`Backend answered ${res.status}`);
         const data = merge((await res.json()) as Raw);
         cache = { at: Date.now(), data };

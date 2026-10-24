@@ -93,14 +93,14 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                                         aria-label="Bonnetje openen"
                                     >
                                         <span class="block-header-bon-row">
-                                            <span>BON #</span>
+                                            <span>{content.header.bonLabel}</span>
                                             <span>
                                                 <span data-cart-count>0</span>×
                                             </span>
                                         </span>
                                         <span class="block-header-bon-line" />
                                         <span class="block-header-bon-row big">
-                                            <span>bekijk bon</span>
+                                            <span>{content.header.bonButton}</span>
                                             <span>→</span>
                                         </span>
                                     </button>
@@ -122,7 +122,10 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                             <>
                                 {/* Hero and photo window: two blocks side by side (blocks/_intro.scss). */}
                                 <div class="block-intro">
-                                    <section class="block-hero box shadow">
+                                    <section
+                                        class="block-hero box shadow"
+                                        style={hero.background ? `--hero-bg: url('${hero.background}')` : undefined}
+                                    >
                                         <h6 class="block-hero-annotation">{hero.annotation}</h6>
                                         <h1 class="block-hero-header">{hero.title}</h1>
                                         {paragraphs(hero.intro).map((line) => (

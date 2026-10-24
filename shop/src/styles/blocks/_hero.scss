@@ -8,7 +8,9 @@
     flex-direction: column;
     gap: 18px;
     height: 100%;
-    background-image: url('/img/roertj-t.png');
+    // The photo can be changed in the admin (Teksten → Bovenaan → Achtergrondfoto);
+    // the page then sets --hero-bg. Without one, this photo is used.
+    background-image: var(--hero-bg, url('/img/roertj-t.png'));
     background-size: cover;
     background-position: center;
 
@@ -30,7 +32,7 @@
             position: absolute;
             width: 3px;
             height: 20px;
-            background: #BA8C63;
+            background: #ba8c63;
             z-index: -1;
             top: 100%;
         }
