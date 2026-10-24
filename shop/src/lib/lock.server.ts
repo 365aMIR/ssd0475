@@ -56,7 +56,7 @@ export function hasAccess(cookie: string | undefined): boolean {
 export const lockedFor = (cookie: string | undefined) => isLocked() && !hasAccess(cookie);
 
 /**
- * Wrong guesses are rate limited per visitor, the same way as the kluis: after
+ * Wrong guesses are rate limited per visitor, the same way as the kloesoe: after
  * MAX_TRIES the login stays shut for LOCK_MS.
  */
 const MAX_TRIES = 5;

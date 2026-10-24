@@ -5,7 +5,7 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    gap: 8px;
+    // gap: 8px;
     min-height: 44px;
     padding: 0 16px;
     font-size: 14px;
@@ -16,6 +16,10 @@
     border: 2px solid $black;
     box-shadow: 3px 3px 0 $black;
     cursor: crosshair;
+
+    & svg{
+        margin-right: 8px;
+    }
 
     &:hover {
         color: $black;

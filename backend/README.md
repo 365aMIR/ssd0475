@@ -12,7 +12,7 @@ drop.
 ## Start
 
 ```sh
-npm install
+npm install --legacy-peer-deps
 cp .env.example .env   # fill in DATABASE_URI and PAYLOAD_SECRET at least
 npm run dev            # http://localhost:3000/admin
 ```
@@ -28,6 +28,7 @@ The first visit asks you to make the first user.
 | Foto's | product photos | `src/collections/Media.ts` |
 | Gebruikers | people who log in, plus the "shop" user with an API key | `src/collections/Users.ts` |
 | Shop instellingen | shipping zones (name, countries, price) | `src/globals/ShopSettings.ts` |
+| Teksten | the texts on the site, one tab per block (hero, winkel, mama's tuin, footer, login screen, thank-you page…) | `src/globals/SiteContent.ts` |
 | | Stripe webhook, `POST /api/stripe-webhook` | `src/stripe/webhook.ts` |
 
 Stock: empty means not counted (never sells out). A number goes down with every

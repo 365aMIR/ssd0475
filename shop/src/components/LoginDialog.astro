@@ -5,6 +5,11 @@
  * the server (lib/lock.server.ts).
  * Styles: blocks/_login.scss
  */
+interface Props {
+    /** The line next to the lock, from the admin (Teksten → Inlogscherm). */
+    text?: string;
+}
+const { text = 'holdonnnn' } = Astro.props;
 const status = Astro.url.searchParams.get('login');
 const message = status === 'fout' ? 'verkeerd wachtwoord, probeer opnieuw.' : status === 'wacht' ? 'te vaak geprobeerd. wacht een minuut.' : null;
 
@@ -78,7 +83,7 @@ const mailMessage = mail === 'ok' ? 'sent.' : mail === 'fout' ? 'dat mailadres k
                     fill="#000300"
                 ></rect>
             </svg>
-            <p>holdonnnn</p>
+            <p>{text}</p>
         </div>
 
         <div class="block-login-fields">

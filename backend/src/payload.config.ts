@@ -12,6 +12,7 @@ import { Media } from './collections/Media';
 import { Products } from './collections/Products';
 import { Orders } from './collections/Orders';
 import { ShopSettings } from './globals/ShopSettings';
+import { SiteContent } from './globals/SiteContent';
 import { stripeWebhook } from './stripe/webhook';
 
 const filename = fileURLToPath(import.meta.url);
@@ -50,7 +51,7 @@ export default buildConfig({
 
     collections: [Products, Orders, Media, Users],
 
-    globals: [ShopSettings],
+    globals: [ShopSettings, SiteContent],
 
     endpoints: [stripeWebhook],
 

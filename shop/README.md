@@ -65,6 +65,15 @@ Without `BACKEND_ENDPOINT` (local dev without the admin) the shop shows the
 products in `src/data/products.ts` instead, and checkout uses one zone,
 Nederland, free shipping.
 
+## Texts
+
+The texts on the page are edited in the admin under **Website → Teksten**, one
+tab per block. A field left empty shows the standard text (greyed out in the
+field), which lives in `src/lib/content.server.ts`. Changes show up within ten
+seconds. A new text block on the page: add the field in
+`backend/src/globals/SiteContent.ts` and its standard text in
+`content.server.ts`, then use it in the page.
+
 ## Checkout (Stripe)
 
 The receipt's checkout button posts the cart to `/api/checkout`. That checks
@@ -102,7 +111,7 @@ The EP player and the radio pause each other, so only one plays at a time.
 
 ## The vault
 
-The "kluis" window on the desktop opens with a 4-digit code. The code is
+The "kloesoe" window on the desktop opens with a 4-digit code. The code is
 checked server-side by `src/pages/api/vault.ts`; `src/lib/vault.server.ts` holds
 only its sha256 and the contents, and is never imported by a page, so neither
 shows up in the browser. Change the code with the `VAULT_PIN` env var (Coolify)
@@ -114,7 +123,7 @@ must not live in `public/`, or they're reachable without the code.
 
 Before a drop the site shows a log-in screen (the blue desktop with a
 "Log in bij southsidedinero" dialog) instead of the shop. The radio, mama's
-tuin, southsidedinero and the kluis still work behind it; the products are not
+tuin, southsidedinero and the kloesoe still work behind it; the products are not
 rendered at all. After logging in a cookie keeps the visitor in for 60 days and
 they see the whole shop.
 

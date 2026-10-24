@@ -35,7 +35,14 @@ export const POST: APIRoute = async ({ request, locals, url }) => {
     const lines = (body.lines ?? []).filter((l) => l && typeof l.id === 'string' && typeof l.size === 'string' && Number.isInteger(l.qty) && l.qty > 0 && l.qty <= 10);
     if (!lines.length) return fail('Je bonnetje is leeg.');
 
-    const { products, zones } = await getFreshCatalog();
+    let catalog;
+    try {
+        catalog = await getFreshCatalog();
+    } catch (error) {
+        console.error('[checkout] could not load the catalogue from the admin:', error);
+        return fail('De shop is even niet bereikbaar, probeer het zo nog eens.', 503);
+    }
+    const { products, zones } = catalog;
     const zone = zones[body.zone ?? -1];
     if (!zone) return fail('Kies waar je bestelling heen moet.');
 

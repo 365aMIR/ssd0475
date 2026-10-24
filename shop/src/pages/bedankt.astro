@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Stripe from 'stripe';
+import { getContent, paragraphs } from '../lib/content.server';
 
 export const prerender = false;
 
@@ -18,6 +19,10 @@ if (id && process.env.STRIPE_SECRET_KEY) {
         paid = false;
     }
 }
+
+// Texts from the admin (Teksten → Na het betalen).
+const { thanks } = await getContent();
+const paidTitle = thanks.paidTitle.replace(/\.$/, '');
 ---
 
 <Base title="bedankt · southsidedinero">
@@ -34,13 +39,20 @@ if (id && process.env.STRIPE_SECRET_KEY) {
                 {
                     paid ? (
                         <>
-                            <h1 class="block-thanks-header">bedankt{name && ` ${name.toLowerCase()}`}.</h1>
-                            <p class="block-thanks-text">je bestelling is binnen. de bevestiging staat in je mail, we laten het weten zodra hij onderweg is.</p>
+                            <h1 class="block-thanks-header">
+                                {paidTitle}
+                                {name && ` ${name.toLowerCase()}`}.
+                            </h1>
+                            {paragraphs(thanks.paidText).map((line) => (
+                                <p class="block-thanks-text">{line}</p>
+                            ))}
                         </>
                     ) : (
                         <>
-                            <h1 class="block-thanks-header">bijna.</h1>
-                            <p class="block-thanks-text">we zien je betaling nog niet. betaalde je met een methode die wat langer duurt, dan krijg je een mail zodra hij rond is.</p>
+                            <h1 class="block-thanks-header">{thanks.pendingTitle}</h1>
+                            {paragraphs(thanks.pendingText).map((line) => (
+                                <p class="block-thanks-text">{line}</p>
+                            ))}
                         </>
                     )
                 }

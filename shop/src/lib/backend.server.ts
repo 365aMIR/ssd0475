@@ -39,7 +39,7 @@ interface PayloadProduct {
 }
 
 interface PayloadSettings {
-    shippingZones?: { name: string; countries: string; price: number }[] | null;
+    shippingZones?: { name?: string | null; countries?: string | null; price?: number | null }[] | null;
 }
 
 export interface Catalog {
@@ -71,35 +71,52 @@ const toProduct = (doc: PayloadProduct): Product => ({
 let cache: { at: number; data: Catalog } | null = null;
 const CACHE_MS = 10_000;
 
+const EMPTY: Catalog = { products: [], zones: [] };
+
+async function loadCatalog(): Promise<Catalog> {
+    const [productsRes, settingsRes] = await Promise.all([backendFetch('/api/products?where[_status][equals]=published&depth=1&sort=order&limit=100'), backendFetch('/api/globals/shop-settings')]);
+    if (!productsRes.ok || !settingsRes.ok) throw new Error(`Backend answered ${productsRes.status}/${settingsRes.status} (403 = wrong BACKEND_API_KEY)`);
+
+    const products = ((await productsRes.json()).docs as PayloadProduct[]).map(toProduct);
+    const settings = (await settingsRes.json()) as PayloadSettings;
+    const zones = (settings.shippingZones ?? [])
+        .map((z) => ({
+            name: z.name ?? '',
+            countries: (z.countries ?? '')
+                .split(',')
+                .map((c) => c.trim().toUpperCase())
+                .filter(Boolean),
+            price: z.price ?? 0,
+        }))
+        // A zone without countries can't be shipped to.
+        .filter((z) => z.name && z.countries.length);
+
+    return { products, zones };
+}
+
+/**
+ * Never throws: if the admin can't be reached (or the key is wrong) the shop
+ * shows the last catalogue it had, or an empty shop, instead of an error
+ * page. The reason goes to the logs (Coolify → shop → Logs).
+ */
 export async function getCatalog(): Promise<Catalog> {
     if (!hasBackend()) return { products: localProducts, zones: [{ name: 'Nederland', countries: ['NL'], price: 0 }] };
     if (cache && Date.now() - cache.at < CACHE_MS) return cache.data;
 
-    const [productsRes, settingsRes] = await Promise.all([backendFetch('/api/products?where[_status][equals]=published&depth=1&sort=order&limit=100'), backendFetch('/api/globals/shop-settings')]);
-    if (!productsRes.ok || !settingsRes.ok) {
-        // Admin unreachable: show the last known catalogue rather than nothing.
-        if (cache) return cache.data;
-        throw new Error(`Backend answered ${productsRes.status}/${settingsRes.status}`);
+    try {
+        const data = await loadCatalog();
+        cache = { at: Date.now(), data };
+        return data;
+    } catch (error) {
+        console.error('[shop] could not load the catalogue from the admin:', error);
+        return cache?.data ?? EMPTY;
     }
-
-    const products = ((await productsRes.json()).docs as PayloadProduct[]).map(toProduct);
-    const settings = (await settingsRes.json()) as PayloadSettings;
-    const zones = (settings.shippingZones ?? []).map((z) => ({
-        name: z.name,
-        countries: z.countries
-            .split(',')
-            .map((c) => c.trim().toUpperCase())
-            .filter(Boolean),
-        price: z.price,
-    }));
-
-    const data = { products, zones };
-    cache = { at: Date.now(), data };
-    return data;
 }
 
-/** Fresh, uncached catalogue: used at checkout so prices and stock are current. */
+/** Fresh, uncached catalogue: used at checkout so prices and stock are current. Throws when the admin can't be reached. */
 export async function getFreshCatalog(): Promise<Catalog> {
-    cache = null;
-    return getCatalog();
+    if (!hasBackend()) return getCatalog();
+    const data = await loadCatalog();
+    cache = { at: Date.now(), data };
+    return data;
 }

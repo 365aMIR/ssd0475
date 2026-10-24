@@ -10,6 +10,7 @@ import LogoCycle from '../components/LogoCycle.astro';
 import Vault from '../components/Vault.astro';
 import LoginDialog from '../components/LoginDialog.astro';
 import { getCatalog } from '../lib/backend.server';
+import { getContent, paragraphs } from '../lib/content.server';
 import { ep } from '../data/ep';
 import { getBeats } from '../lib/beats';
 
@@ -27,17 +28,22 @@ const locked = Astro.locals.locked;
 // without one). Not even fetched for locked-out visitors.
 const { products, zones } = locked ? { products: [], zones: [] } : await getCatalog();
 
+// The texts per block, edited in the admin under Website → Teksten (lib/content.server.ts).
+const content = await getContent();
+const { hero, shop, drop, about, footer } = content;
+const epText = content.ep;
+
 const icons = [
-    { win: 'drop', label: 'drop_001' },
-    { win: 'ep', label: "mama's tuin", icon: ep.cover },
+    { win: 'drop', label: drop.windowTitle },
+    { win: 'ep', label: epText.title, icon: ep.cover },
     { win: 'radio', label: 'radio', icon: '/img/cd_audio_cd-0_256.png' },
     { win: 'southsidedinero', label: 'southsidedinero', icon: '/img/shop/roermoney.png' },
-    { win: 'vault', label: 'kluis', icon: '/img/shop/vault.svg' },
+    { win: 'vault', label: 'kloesoe', icon: '/img/shop/vault.svg' },
 ].filter((item) => !locked || item.win !== 'drop');
 
 const quickNav = [
-    { label: 'drop_001', win: 'drop' },
-    { label: "mama's tuin", win: 'ep' },
+    { label: drop.windowTitle, win: 'drop' },
+    { label: epText.title, win: 'ep' },
     { label: 'radio', win: 'radio' },
     { label: 'southsidedinero', win: 'southsidedinero' },
 ];
@@ -66,14 +72,18 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                                         <svg
                                             width="18"
                                             height="18"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
+                                            viewBox="0 0 640 640"
                                             aria-hidden="true"
                                         >
-                                            <path d="M5 8h14l-1.5 12h-11z" />
-                                            <path d="M9 8V6a3 3 0 0 1 6 0v2" />
+                                            <!--!Font Awesome Pro v7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2026 Fonticons, Inc.-->
+                                            <path
+                                                fill="#ffffff"
+                                                d="M80 490.6L80 576L560 576L560 490.6C560 402.8 521 319.4 453.5 263.2L406.4 224L233.6 224L186.5 263.2C119 319.5 80 402.8 80 490.6zM192 64L248 176L392 176L448 64L192 64zM252 364.5C252 335.7 275.2 312.3 304 312L304 288L344 288L344 312L372 312L372 352L304.5 352C297.6 352 292 357.6 292 364.5C292 370.6 296.4 375.8 302.4 376.8L344.1 383.8C369.4 388 388 409.9 388 435.6C388 461.7 369 483.3 344 487.4L344 512.1L304 512.1L304 488.1L260 488.1L260 448.1L335.5 448.1C342.4 448.1 348 442.5 348 435.6C348 429.5 343.6 424.3 337.6 423.3L295.9 416.3C270.5 412 252 390.1 252 364.5z"
+                                            />
+                                            <path
+                                                fill="#000"
+                                                d="M432 176L208 176L208 224L432 224L432 176zM344 288L304 288L304 312C275.2 312.3 252 335.7 252 364.5C252 390.2 270.5 412.1 295.9 416.3L337.6 423.3C343.6 424.3 348 429.5 348 435.6C348 442.5 342.4 448.1 335.5 448.1L260 448.1L260 488.1L304 488.1L304 512.1L344 512.1L344 487.4C369 483.3 388 461.7 388 435.6C388 409.9 369.5 388 344.1 383.8L302.4 376.8C296.4 375.8 292 370.6 292 364.5C292 357.6 297.6 352 304.5 352L372 352L372 312L344 312L344 288z"
+                                            />
                                         </svg>
                                         cart (<span data-cart-count>0</span>)
                                     </button>
@@ -95,28 +105,30 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                             <>
                                 <section class="block-hero">
                                     <div class="block-hero-copy box shadow">
-                                        <h6 class="block-hero-annotation">koop je hoodie</h6>
-                                        <h1 class="block-hero-header">drop_001</h1>
-                                        {/* <p class="block-hero-content"></p> */}
+                                        <h6 class="block-hero-annotation">{hero.annotation}</h6>
+                                        <h1 class="block-hero-header">{hero.title}</h1>
+                                        {paragraphs(hero.intro).map((line) => (
+                                            <p class="block-hero-content">{line}</p>
+                                        ))}
                                         <div class="block-hero-button-wrapper">
                                             <a
                                                 class="button yellow"
                                                 href="#shop"
                                             >
-                                                get fly →
+                                                {hero.button}
                                             </a>
                                             <a
                                                 class="link-mono"
                                                 href="#desktop"
                                                 data-open-win="ep"
                                             >
-                                                luister mama's tuin →
+                                                {hero.epLink}
                                             </a>
                                         </div>
                                     </div>
 
                                     <div class="block-hero-window shadow">
-                                        <div class="block-hero-window-bar">rojo_angelo.jpg</div>
+                                        <div class="block-hero-window-bar">{hero.windowTitle}</div>
                                         <div class="block-hero-window-body">
                                             {products.map((p) => (
                                                 <button
@@ -160,7 +172,7 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                                     ></div>
                                     <div class="block-products-head box">
                                         <h2 class="block-products-title">
-                                            de collectie<small class="block-products-count">{products.length} </small>
+                                            {shop.title}<small class="block-products-count">{products.length} </small>
                                         </h2>
                                     </div>
                                     <div class="block-products-grid">
@@ -181,7 +193,7 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                     <DesktopSection
                         icons={icons}
                         locked={locked}
-                        brand={locked ? 'drop_001 soon come soon come' : undefined}
+                        brand={locked ? content.locked.desktopText : undefined}
                     >
                         <Window
                             id="radio"
@@ -197,7 +209,7 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                                 <>
                                     <Window
                                         id="drop"
-                                        title="drop_001"
+                                        title={drop.windowTitle}
                                         width={520}
                                         open={false}
                                     >
@@ -205,7 +217,7 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                                             <p class="block-drop-path">
                                                 <>
                                                     <span>{products.length} items</span>
-                                                    <span>c:\southsidedinero\drop_001</span>
+                                                    <span>{drop.path}</span>
                                                 </>
                                             </p>
                                             <div class="block-drop-files">
@@ -231,7 +243,7 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
 
                         <Window
                             id="ep"
-                            title="mamas_tuin"
+                            title={epText.title.replace(/['’]/g, '').replace(/[^a-z0-9]+/gi, '_')}
                             width={520}
                             open={false}
                         >
@@ -240,15 +252,17 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                                     <img
                                         class="block-ep-cover"
                                         src={ep.cover}
-                                        alt={`Cover van ${ep.title}`}
+                                        alt={`Cover van ${epText.title}`}
                                         width="132"
                                         height="132"
                                     />
                                     <div>
-                                        <p class="block-ep-annotation">ep · southsidedinero</p>
-                                        <h3 class="block-ep-header">{ep.title}</h3>
-                                        <p class="block-ep-meta">{ep.artist} · {ep.year} · {ep.summary}</p>
-                                        <p class="block-ep-meta">uit sinds {ep.released}</p>
+                                        <p class="block-ep-annotation">{epText.annotation}</p>
+                                        <h3 class="block-ep-header">{epText.title}</h3>
+                                        <p class="block-ep-meta">
+                                            {epText.artist} · {epText.year} · {epText.summary}
+                                        </p>
+                                        <p class="block-ep-meta">uit sinds {epText.released}</p>
                                         {
                                             ep.listenUrl && (
                                                 <a
@@ -257,7 +271,7 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                                                     target="_blank"
                                                     rel="noopener"
                                                 >
-                                                    luister op spotify →
+                                                    {epText.listenLabel}
                                                 </a>
                                             )
                                         }
@@ -276,7 +290,7 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                                                 type="button"
                                                 class="block-ep-yt"
                                                 data-yt-id={ep.youtubeId}
-                                                data-yt-title={`${clipTrack.title} — ${ep.artist}`}
+                                                data-yt-title={`${clipTrack.title} — ${epText.artist}`}
                                                 aria-label={`Speel de videoclip van ${clipTrack.title} af`}
                                             >
                                                 <img
@@ -321,7 +335,7 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                                             target="_blank"
                                             rel="noopener"
                                         >
-                                            bekijk op youtube →
+                                            {epText.youtubeLabel}
                                         </a>
                                     )
                                 }
@@ -388,7 +402,7 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                                         <div class="block-ep-spotify">
                                             <span class="block-ep-spotify-label">spotify.exe</span>
                                             <iframe
-                                                title={`${ep.title} op Spotify`}
+                                                title={`${epText.title} op Spotify`}
                                                 src={`https://open.spotify.com/embed/album/${ep.spotifyAlbumId}?utm_source=generator&theme=0`}
                                                 width="100%"
                                                 height="152"
@@ -403,7 +417,7 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
 
                         <Window
                             id="southsidedinero"
-                            title="southsidedinero"
+                            title={about.windowTitle}
                             width={500}
                             open={false}
                         >
@@ -416,21 +430,23 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                                     height="150"
                                 />
                                 <div class="block-roermoney-text">
-                                    <h3 class="block-roermoney-header">roertje</h3>
-                                    <p class="block-roermoney-content">enne</p>
+                                    <h3 class="block-roermoney-header">{about.title}</h3>
+                                    {paragraphs(about.content).map((line) => (
+                                        <p class="block-roermoney-content">{line}</p>
+                                    ))}
                                 </div>
                             </div>
                         </Window>
 
                         <Window
                             id="vault"
-                            title="kluis"
+                            title="kloesoe"
                             width={320}
                             open={false}
                         >
                             <Vault />
                         </Window>
-                        {locked && <LoginDialog />}
+                        {locked && <LoginDialog text={content.locked.loginText} />}
                     </DesktopSection>
 
                     {
@@ -465,12 +481,11 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                             <div class="row">
                                 <div class="col-12">
                                     <div class="block-footer-bottom-wrapper">
-                                        <span>© southsidedinero</span>
+                                        <span>{footer.copyright}</span>
                                         <span class="block-footer-bottom-links">
-                                            <>
-                                                <a href="#">Algemene voorwaarden</a>
-                                                <a href="#">Privacy</a>
-                                            </>
+                                            {footer.links.map((link) => (
+                                                <a href={link.url}>{link.label}</a>
+                                            ))}
                                         </span>
                                     </div>
                                 </div>
