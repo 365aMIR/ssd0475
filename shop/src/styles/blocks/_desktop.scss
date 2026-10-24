@@ -62,15 +62,16 @@
         }
     }
 
-    // The libre-dash taskbar, sat inside the section.
+    // A Windows taskbar: grey, with a light top edge.
     &-taskbar {
         display: flex;
         align-items: center;
         gap: 10px;
-        min-height: 40px;
-        padding: 0 10px;
-        background-color: $taskgrey;
+        min-height: 52px;
+        padding: 4px 8px;
+        background-color: $lightgrey;
         border-top: 2px solid $black;
+        box-shadow: inset 0 2px 0 $white;
     }
 
     &-start {
@@ -85,31 +86,54 @@
 
     &-dock {
         display: flex;
-        gap: 8px;
+        gap: 6px;
         overflow-x: auto;
         min-width: 0;
 
-        // Buttons are created by the window manager.
+        // Buttons are created by the window manager (DesktopSection.astro):
+        // raised, with the window's icon. Pressed in while the window is open.
         & .taskbar-app {
-            font-family: $tiny5;
-            font-size: 16px;
-            background-color: $midgrey;
-            border: 2px solid $black;
-            border-bottom-width: 4px;
-            border-top: none;
+            flex: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 168px;
+            min-height: 40px;
+            padding: 0 10px;
+            background-color: $lightgrey;
+            border-style: solid;
+            border-width: 2px;
+            border-color: $white $black $black $white;
             color: $black;
-            padding: 3px 10px;
+            font-family: $tiny5;
+            font-size: 15px;
+            text-align: left;
             cursor: crosshair;
-            white-space: nowrap;
 
             &:hover {
                 background-color: $green;
             }
 
             &[data-active='true'] {
-                background-color: $black;
-                color: $white;
+                border-color: $black $white $white $black;
+                // The fine grey dither Windows draws on a pressed taskbar button.
+                background-color: $white;
+                background-image: conic-gradient($lightgrey 0 25%, $white 0 50%, $lightgrey 0 75%, $white 0);
+                background-size: 4px 4px;
             }
+        }
+
+        & .taskbar-app-icon {
+            flex: none;
+            width: 22px;
+            height: 20px;
+            object-fit: contain;
+        }
+
+        & .taskbar-app-label {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
 
@@ -135,9 +159,17 @@
         border: 2px solid $black;
     }
 
+    // The tray on the right, sunk into the taskbar.
     &-brand {
         margin-left: auto;
         flex: none;
+        display: flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 12px;
+        border-style: solid;
+        border-width: 2px;
+        border-color: $darkgrey $white $white $darkgrey;
         font-family: $tiny5;
         font-size: 14px;
     }
@@ -171,6 +203,11 @@ body:has(.block-desktop--locked) {
 
         &-icon-label {
             font-size: 12px;
+        }
+
+        &-dock .taskbar-app {
+            width: auto;
+            max-width: 150px;
         }
 
         &-brand {

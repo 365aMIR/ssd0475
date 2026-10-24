@@ -1,6 +1,5 @@
 @use '../utils/variables' as *;
 
-// The cart, opened in the middle of the screen as a till receipt.
 .block-cart {
     padding: 0;
     border: none;
@@ -122,7 +121,6 @@
         gap: 12px;
     }
 
-    // Line items are written in by shop-client.ts.
     &-line {
         &-top {
             display: flex;
@@ -202,7 +200,6 @@
         }
     }
 
-    // Shipping zone picker, styled as a receipt line.
     &-zone {
         align-items: center;
 
@@ -249,7 +246,6 @@
         margin-top: 6px;
     }
 
-    // The nulnanul slogan, signing off the receipt.
     &-thanks {
         display: block;
         width: 100%;

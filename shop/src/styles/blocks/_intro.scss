@@ -1,0 +1,15 @@
+@use '../utils/variables' as *;
+
+.block-intro {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+    gap: 32px;
+    align-items: center;
+    margin-top: 56px;
+}
+
+@media screen and (max-width: 768px) {
+    .block-intro {
+        margin-top: 8px;
+    }
+}

@@ -1,45 +1,79 @@
 @use '../utils/variables' as *;
 
-.block-top-header {
-    // background-color: $lightgrey;
-    border-bottom: 2px solid $black;
-    // padding: 8px 0;
-    padding: 6px 0;
-    text-align: center;
-    font-family: $tiny5;
-    font-size: 14px;
-    white-space: nowrap;
+// The red bar with running text above the header (text: admin → Teksten → Ticker).
+.block-ticker {
     overflow: hidden;
-    text-overflow: ellipsis;
-    background-color: #fffeff;
-    background-image: conic-gradient($pink 0 25%, $offwhite 0 50%, $pink 0 75%, $offwhite 0);
-    background-size: 16px 16px;
+    padding: 7px 0;
+    background-color: $red;
+    border-bottom: 2px solid $black;
+    color: $yellow;
+    font-family: $tiny5;
+    font-size: 17px;
+    white-space: nowrap;
+    z-index: 10;
+    position: relative;
+    max-width: 1170px; //match container
+    margin: auto;
+
+    // Two identical runs side by side; sliding one run's width loops seamlessly.
+    &-track {
+        display: flex;
+        width: max-content;
+        animation: block-ticker 40s linear infinite;
+    }
+
+    &-item::after {
+        content: '✦';
+        margin: 0 12px;
+    }
+
+    &:hover &-track {
+        animation-play-state: paused;
+    }
+}
+
+@keyframes block-ticker {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .block-ticker-track {
+        animation: none;
+    }
 }
 
 .block-header {
-    background-color: transparent;
-    background-color: white;
+    position: relative;
+    z-index: 2;
+    background-color: $white;
     border-bottom: 2px solid $black;
-    // backdrop-filter: hue-rotate(252deg);
-    // backdrop-filter: blur(1px);
+    max-width: 1170px; //match container
+    margin: auto;
 
     &-wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 12px;
-        padding: 10px 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        align-items: start;
+        gap: 24px;
+        height: 84px;
     }
 
-    // The ssdssd wordmark: click to recolour, like the Sticker on the radio site.
     &__logo {
         display: block;
-        width: clamp(130px, 28vw, 200px);
+        width: 267px;
+        margin-top: 10px;
         padding: 0;
         background: none;
         border: none;
         cursor: crosshair;
-        // filter: drop-shadow(2px 2px 0 $white);
+        transform: rotate(-3deg);
+        filter: drop-shadow(-5px 5px 0 $black);
 
         & img {
             display: block;
@@ -49,8 +83,85 @@
         }
     }
 
-    &__cart {
-        white-space: nowrap;
-        padding: 0 12px;
+    &-bon {
+        justify-self: end;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        width: 180px;
+        margin-top: -2px;
+        padding: 10px 14px 18px;
+        background-color: $paper;
+        border: 2px solid $black;
+        border-top: none;
+        color: $black;
+        font-family: $space-mono;
+        font-size: 12px;
+        text-align: left;
+        cursor: crosshair;
+        clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), 95% 100%, 90% calc(100% - 8px), 85% 100%, 80% calc(100% - 8px), 75% 100%, 70% calc(100% - 8px), 65% 100%, 60% calc(100% - 8px), 55% 100%, 50% calc(100% - 8px), 45% 100%, 40% calc(100% - 8px), 35% 100%, 30% calc(100% - 8px), 25% 100%, 20% calc(100% - 8px), 15% 100%, 10% calc(100% - 8px), 5% 100%, 0 calc(100% - 8px));
+        transform-origin: top center;
+        transition: transform 0.15s;
+
+        &-row {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+
+            &.big {
+                font-size: 15px;
+            }
+        }
+
+        &-line {
+            border-top: 1px dashed $black;
+        }
+
+        &:hover,
+        &:focus-visible {
+            background-color: #fffeff;
+            background-image: linear-gradient(#fff 0 0%, #fff 0 26%, rgb(54, 69, 217) 0 50%, rgb(54, 69, 217) 0);
+            background-size: 113px 130px;
+            transform: rotate(2deg);
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .block-header {
+        &-wrapper {
+            grid-template-columns: auto minmax(0, 1fr);
+            height: 64px;
+
+            &>span:first-child {
+                display: none;
+            }
+        }
+
+        &__logo {
+            width: 180px;
+            margin-top: 8px;
+        }
+
+        &-bon {
+            width: 140px;
+            padding: 8px 10px 16px;
+
+            &-row.big {
+                font-size: 13px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .block-header {
+        &__logo {
+            width: 150px;
+        }
+
+        &-bon {
+            width: 120px;
+        }
     }
 }

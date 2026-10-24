@@ -168,7 +168,20 @@ const { icons, locked = false, brand = 'southsidedinero' } = Astro.props;
             if (btn) {
                 btn.type = 'button';
                 btn.className = 'taskbar-app';
-                btn.textContent = win.dataset.winTitle;
+                // changed: the same little picture as the window's desktop icon, then the title.
+                const icon = document.querySelector(`.block-desktop-icon[data-open-win="${id}"] :is(img, svg)`);
+                if (icon) {
+                    const small = icon.cloneNode(true);
+                    small.removeAttribute('width');
+                    small.removeAttribute('height');
+                    small.setAttribute('aria-hidden', 'true');
+                    small.classList.add('taskbar-app-icon');
+                    btn.appendChild(small);
+                }
+                const label = document.createElement('span');
+                label.className = 'taskbar-app-label';
+                label.textContent = win.dataset.winTitle;
+                btn.appendChild(label);
                 btn.addEventListener('click', cycle);
                 dock.appendChild(btn);
             }

@@ -1,0 +1,40 @@
+---
+/**
+ * The photo window next to the hero: a window from the radio site (title bar,
+ * grey frame) with the first photo of every product. Click a photo to open
+ * the product popup. Its own block: styles in blocks/_showcase.scss.
+ */
+import type { Product } from '../data/products';
+
+interface Props {
+    /** Text in the red title bar (admin: Teksten → Bovenaan). */
+    title: string;
+    products: Product[];
+}
+
+const { title, products } = Astro.props;
+---
+
+<section
+    class="block-showcase shadow"
+    aria-label={title}
+>
+    <div class="block-showcase-bar">{title}</div>
+    <div class="block-showcase-body">
+        {
+            products.map((p) => (
+                <button
+                    type="button"
+                    class="block-showcase-shot"
+                    data-product-open={p.id}
+                    aria-label={`Bekijk ${p.name}`}
+                >
+                    <img
+                        src={p.photos[0]}
+                        alt=""
+                    />
+                </button>
+            ))
+        }
+    </div>
+</section>

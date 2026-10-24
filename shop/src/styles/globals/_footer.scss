@@ -1,9 +1,11 @@
 @use '../utils/variables' as *;
 
-// No link columns: the nulnanul eagle edge to edge, then the bottom bar.
 .block-footer {
     background-color: $white;
     border-top: 2px solid $black;
+    max-width: 1170px; //match container
+    margin: auto;
+
 
     &-image {
         display: block;
@@ -29,7 +31,8 @@
         &-links {
             display: flex;
             gap: 16px;
-            & a{
+
+            & a {
                 text-decoration: none;
             }
         }

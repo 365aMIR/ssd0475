@@ -6,8 +6,11 @@ import { backendFetch, hasBackend } from './backend.server';
  * back to the text below, so these are also the texts without the admin.
  */
 export const DEFAULT_CONTENT = {
+    header: {
+        ticker: "drop_001 nu live\nrojo hoodie\nangelo hoodie\nmama's tuin uit nu\n0475 roermond\nnulnanul",
+    },
     hero: {
-        annotation: 'NULNANUL',
+        annotation: 'ROERMONEY',
         title: 'drop_001',
         intro: '',
         button: 'get fly →',
@@ -15,7 +18,7 @@ export const DEFAULT_CONTENT = {
         windowTitle: 'rojo_angelo.jpg',
     },
     shop: {
-        title: 'winkel',
+        title: 'shoppa',
     },
     drop: {
         windowTitle: 'drop_001',
