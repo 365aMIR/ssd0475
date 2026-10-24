@@ -521,6 +521,20 @@ export interface ShopSetting {
  */
 export interface SiteContent {
   id: string;
+  header?: {
+    /**
+     * Eén onderdeel per regel; ertussen komt een ✦.
+     */
+    ticker?: string | null;
+    /**
+     * Het aantal items komt er rechts naast.
+     */
+    bonLabel?: string | null;
+    /**
+     * Opent het mandje.
+     */
+    bonButton?: string | null;
+  };
   hero?: {
     annotation?: string | null;
     title?: string | null;
@@ -537,6 +551,10 @@ export interface SiteContent {
      */
     epLink?: string | null;
     windowTitle?: string | null;
+    /**
+     * De foto achter drop_001 en de knoppen. Leeg = de standaardfoto (Roermond met de ROER-letters).
+     */
+    background?: (string | null) | Media;
   };
   shop?: {
     title?: string | null;
@@ -614,6 +632,13 @@ export interface ShopSettingsSelect<T extends boolean = true> {
  * via the `definition` "site-content_select".
  */
 export interface SiteContentSelect<T extends boolean = true> {
+  header?:
+    | T
+    | {
+        ticker?: T;
+        bonLabel?: T;
+        bonButton?: T;
+      };
   hero?:
     | T
     | {
@@ -623,6 +648,7 @@ export interface SiteContentSelect<T extends boolean = true> {
         button?: T;
         epLink?: T;
         windowTitle?: T;
+        background?: T;
       };
   shop?:
     | T

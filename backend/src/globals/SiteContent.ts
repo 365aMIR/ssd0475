@@ -38,11 +38,23 @@ export const SiteContent: GlobalConfig = {
             type: 'tabs',
             tabs: [
                 {
+                    name: 'header',
+                    label: 'Header',
+                    description: 'De rode balk met lopende tekst en het bonnetje rechts in de header.',
+                    fields: [
+                        textarea('ticker', 'Lopende tekst', "drop_001 nu live\nrojo hoodie\nangelo hoodie\nmama's tuin uit nu\n0475 roermond\nnulnanul", 'Eén onderdeel per regel; ertussen komt een ✦.'),
+                        {
+                            type: 'row',
+                            fields: [text('bonLabel', 'Bovenste regel van het bonnetje', 'BON #', 'Het aantal items komt er rechts naast.', '50%'), text('bonButton', 'Onderste regel van het bonnetje', 'bekijk bon', 'Opent het mandje.', '50%')],
+                        },
+                    ],
+                },
+                {
                     name: 'hero',
                     label: 'Bovenaan',
                     description: 'Het eerste blok: titel, knoppen en het venster met de producten.',
                     fields: [
-                        text('annotation', 'Klein boven de titel', 'NULNANUL'),
+                        text('annotation', 'Klein boven de titel', 'ROERMONEY'),
                         text('title', 'Titel', 'drop_001'),
                         textarea('intro', 'Tekst onder de titel', '', `Optioneel. ${PARAGRAPHS}`),
                         {
@@ -50,12 +62,19 @@ export const SiteContent: GlobalConfig = {
                             fields: [text('button', 'Gele knop', 'get fly →', 'Gaat naar de winkel.', '50%'), text('epLink', 'Link ernaast', "mama's tuin →", "Opent het mama's tuin-venster.", '50%')],
                         },
                         text('windowTitle', 'Titel van het fotovenster', 'rojo_angelo.jpg'),
+                        {
+                            name: 'background',
+                            label: 'Achtergrondfoto',
+                            type: 'upload',
+                            relationTo: 'media',
+                            admin: { description: 'De foto achter drop_001 en de knoppen. Leeg = de standaardfoto (Roermond met de ROER-letters).' },
+                        },
                     ],
                 },
                 {
                     name: 'shop',
                     label: 'Winkel',
-                    fields: [text('title', 'Titel boven de producten', 'winkel')],
+                    fields: [text('title', 'Titel boven de producten', 'shoppa')],
                 },
                 {
                     name: 'drop',
