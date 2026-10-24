@@ -148,6 +148,10 @@ body:has(.block-desktop--locked) {
 }
 
 @media screen and (max-width: 576px) {
+    .block-desktop--locked .block-desktop-area {
+        overflow-y: auto;
+    }
+
     .block-desktop {
         &-area {
             height: 760px;

@@ -1,7 +1,7 @@
 // Browser side of the shop: the product popup and the receipt cart.
 // Products come in as JSON from the page (see index.astro), so this file has
 // no copy of the catalogue to keep in sync.
-import type { Product } from '../data/products';
+import type { Product, ShippingZone } from '../data/products';
 
 interface Line {
     id: string;
@@ -10,6 +10,7 @@ interface Line {
 }
 
 const CART_KEY = 'ssd:cart';
+const ZONE_KEY = 'ssd:zone';
 
 const euro = (value: number) => '€ ' + value.toFixed(2).replace('.', ',');
 
@@ -22,9 +23,9 @@ function el<T extends HTMLElement>(id: string): T {
 export function startShop() {
     const dataNode = document.getElementById('ssd-products');
     if (!dataNode?.textContent) return;
-    const { products, shipping } = JSON.parse(dataNode.textContent) as {
+    const { products, zones } = JSON.parse(dataNode.textContent) as {
         products: Product[];
-        shipping: number | null;
+        zones: ShippingZone[];
     };
     const byId = new Map(products.map((p) => [p.id, p]));
 
@@ -47,6 +48,31 @@ export function startShop() {
     const lines = el<HTMLUListElement>('bon-lines');
 
     el('bon-date').textContent = new Date().toLocaleDateString('nl-NL');
+
+    // Where it ships to: picked on the receipt, sets the shipping cost here
+    // and the countries Stripe accepts at checkout.
+    const zoneSelect = el<HTMLSelectElement>('bon-zone');
+    let zone = 0;
+    try {
+        zone = Number(localStorage.getItem(ZONE_KEY) ?? 0);
+    } catch {}
+    if (!(zone >= 0 && zone < zones.length)) zone = 0;
+    zoneSelect.replaceChildren(
+        ...zones.map((z, i) => {
+            const option = document.createElement('option');
+            option.value = String(i);
+            option.textContent = z.name;
+            return option;
+        }),
+    );
+    zoneSelect.value = String(zone);
+    zoneSelect.addEventListener('change', () => {
+        zone = Number(zoneSelect.value);
+        try {
+            localStorage.setItem(ZONE_KEY, String(zone));
+        } catch {}
+        renderCart();
+    });
 
     function renderCart() {
         let subtotal = 0;
@@ -96,8 +122,10 @@ export function startShop() {
 
         el('bon-empty').hidden = cart.length > 0;
         el('bon-subtotal').textContent = euro(subtotal);
-        el('bon-shipping').textContent = shipping == null ? 'nog te bepalen' : euro(shipping);
-        el('bon-total').textContent = euro(subtotal + (shipping ?? 0));
+        const shipping = zones[zone]?.price ?? 0;
+        el('bon-shipping').textContent = cart.length ? euro(shipping) : euro(0);
+        el('bon-total').textContent = euro(cart.length ? subtotal + shipping : 0);
+        checkout.disabled = cart.length === 0 || zones.length === 0;
 
         // Each product in the cart puts its own class on the receipt (rojo,
         // angelo…), so the backdrop takes on that hoodie's stripes.
@@ -114,6 +142,37 @@ export function startShop() {
             n.textContent = String(count);
         });
     }
+
+    /* ---------- checkout ---------- */
+    // Sends the cart to pages/api/checkout.ts, which checks prices and stock in
+    // the admin and answers with the Stripe payment page to go to.
+    const checkout = el<HTMLButtonElement>('bon-checkout');
+    const note = el('bon-note');
+    const noteText = note.textContent;
+    checkout.addEventListener('click', async () => {
+        checkout.disabled = true;
+        checkout.textContent = 'even wachten…';
+        note.classList.remove('error');
+        note.textContent = noteText;
+        try {
+            const res = await fetch('/api/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ lines: cart, zone }),
+            });
+            const data = await res.json();
+            if (res.ok && data.url) {
+                location.href = data.url;
+                return;
+            }
+            throw new Error(data.error || 'Er ging iets mis, probeer het opnieuw.');
+        } catch (error) {
+            note.textContent = error instanceof Error ? error.message : 'Er ging iets mis, probeer het opnieuw.';
+            note.classList.add('error');
+            checkout.disabled = false;
+            checkout.textContent = 'checkout';
+        }
+    });
 
     function changeQty(index: number, delta: number) {
         cart = cart.map((l, i) => (i === index ? { ...l, qty: l.qty + delta } : l)).filter((l) => l.qty > 0);
@@ -199,11 +258,18 @@ export function startShop() {
                 b.setAttribute('role', 'radio');
                 b.dataset.size = s;
                 b.textContent = s;
+                // Sold out sizes stay visible but can't be picked.
+                if (product.soldOut?.includes(s)) {
+                    b.disabled = true;
+                    b.title = 'uitverkocht';
+                }
                 b.addEventListener('click', () => pickSize(s));
                 return b;
             }),
         );
-        pickSize(product.sizes.includes('m') ? 'm' : product.sizes[0]);
+        const available = product.sizes.filter((s) => !product.soldOut?.includes(s));
+        pickSize(available.includes('m') ? 'm' : (available[0] ?? ''));
+        el<HTMLButtonElement>('pm-add').disabled = available.length === 0;
 
         thumbs.replaceChildren(
             ...product.photos.map((src, k) => {

@@ -55,13 +55,17 @@
             <hr class="block-cart-dash" />
 
             <div class="block-cart-row"><span>subtotaal</span><span id="bon-subtotal">€ 0,00</span></div>
+            <div class="block-cart-row block-cart-zone">
+                <label for="bon-zone">verzenden naar</label>
+                <select id="bon-zone"></select>
+            </div>
             <div class="block-cart-row"><span>verzending</span><span id="bon-shipping"></span></div>
 
             <hr class="block-cart-double" />
 
             <div class="block-cart-total"><span>total</span><span id="bon-total">€ 0,00</span></div>
 
-            <!-- No payment provider yet: the button stays off until one is wired up. -->
+            <!-- Goes to Stripe (pages/api/checkout.ts); off while the receipt is empty. -->
             <button
                 type="button"
                 class="block-cart-checkout"
@@ -69,7 +73,12 @@
                 disabled
                 >checkout</button
             >
-            <p class="block-cart-note">betalen komt binnenkort</p>
+            <p
+                class="block-cart-note"
+                id="bon-note"
+            >
+                ideal · bancontact · kaart
+            </p>
 
             <svg
                 class="block-cart-barcode"

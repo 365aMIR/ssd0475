@@ -202,6 +202,21 @@
         }
     }
 
+    // Shipping zone picker, styled as a receipt line.
+    &-zone {
+        align-items: center;
+
+        & select {
+            max-width: 55%;
+            padding: 2px 4px;
+            background-color: transparent;
+            border: 1px dashed $black;
+            font: inherit;
+            color: $black;
+            cursor: crosshair;
+        }
+    }
+
     &-checkout {
         min-height: 48px;
         background-color: $black;
@@ -221,6 +236,11 @@
         margin-top: -6px;
         text-align: center;
         font-size: 11px;
+
+        &.error {
+            color: $red;
+            font-weight: 700;
+        }
     }
 
     &-barcode {

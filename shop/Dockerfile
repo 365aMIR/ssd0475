@@ -20,5 +20,8 @@ COPY --from=build /app/private ./private
 ENV HOST=0.0.0.0
 ENV PORT=4321
 EXPOSE 4321
+# Mailing list from the login screen (lib/subscribers.server.ts). Mount a
+# Coolify Persistent Storage volume here or the list is lost on every deploy.
+RUN mkdir -p /app/data && chown node:node /app/data
 USER node
 CMD ["node", "./dist/server/entry.mjs"]

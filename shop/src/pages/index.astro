@@ -9,7 +9,7 @@ import CartReceipt from '../components/CartReceipt.astro';
 import LogoCycle from '../components/LogoCycle.astro';
 import Vault from '../components/Vault.astro';
 import LoginDialog from '../components/LoginDialog.astro';
-import { products, SHIPPING } from '../data/products';
+import { getCatalog } from '../lib/backend.server';
 import { ep } from '../data/ep';
 import { getBeats } from '../lib/beats';
 
@@ -22,6 +22,10 @@ const radioCards = getBeats();
 // visitors who haven't logged in get only the desktop with the login dialog.
 // Nothing about the products is rendered for them.
 const locked = Astro.locals.locked;
+
+// Products and shipping zones from the Payload admin (or src/data/products.ts
+// without one). Not even fetched for locked-out visitors.
+const { products, zones } = locked ? { products: [], zones: [] } : await getCatalog();
 
 const icons = [
     { win: 'drop', label: 'drop_001' },
@@ -481,7 +485,7 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                 <script
                     type="application/json"
                     id="ssd-products"
-                    set:html={JSON.stringify({ products, shipping: SHIPPING })}
+                    set:html={JSON.stringify({ products, zones })}
                 />
             </>
         )

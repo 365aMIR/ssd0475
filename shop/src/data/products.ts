@@ -1,3 +1,6 @@
+// Live, the products come from the Payload admin (lib/backend.server.ts).
+// This file is the fallback for local dev without the admin, and the types.
+
 export interface Product {
     /** Stable key — the cart stores this, so don't rename it once live. */
     id: string;
@@ -11,6 +14,10 @@ export interface Product {
     /** Yellow "new" tag; off shows the red southsidedinero tag instead. */
     isNew: boolean;
     sizes: string[];
+    /** Sizes with stock 0: shown, but can't be picked. */
+    soldOut?: string[];
+    /** Stock per size, null = not tracked. */
+    stock?: Record<string, number | null>;
     /**
      * First one is the card image; all of them go in the popup slider.
      * Files live in private/products/ and are served by /shop-img/, so they stay
@@ -46,7 +53,13 @@ export const products: Product[] = [
     },
 ];
 
-/** null shows "nog te bepalen" on the receipt and leaves it out of the total. */
-export const SHIPPING: number | null = null;
+/** A shipping zone from the admin's Shop instellingen, picked on the receipt. */
+export interface ShippingZone {
+    name: string;
+    /** Two-letter country codes Stripe accepts for this zone. */
+    countries: string[];
+    /** In euros. */
+    price: number;
+}
 
 export const euro = (value: number) => '€ ' + value.toFixed(2).replace('.', ',');

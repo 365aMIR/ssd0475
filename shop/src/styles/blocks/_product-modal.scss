@@ -153,6 +153,13 @@
                 background-color: $black;
                 color: $white;
             }
+
+            // Sold out: crossed through, can't be picked.
+            &:disabled {
+                opacity: 0.45;
+                text-decoration: line-through;
+                cursor: not-allowed;
+            }
         }
     }
 
@@ -171,6 +178,11 @@
         &:hover {
             background-color: $green;
             color: $black;
+        }
+
+        &:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
         }
     }
 

@@ -7,3 +7,4 @@ dist
 .vscode
 npm-debug.log*
 public/mamastuin/*.wav
+data

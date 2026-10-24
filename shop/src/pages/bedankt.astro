@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+import Stripe from 'stripe';
+
+export const prerender = false;
+
+// Where Stripe sends people back after paying. Looks the session up so the
+// page only says "betaald" when Stripe agrees, then empties the cart.
+const id = Astro.url.searchParams.get('session_id') ?? '';
+let name = '';
+let paid = false;
+if (id && process.env.STRIPE_SECRET_KEY) {
+    try {
+        const session = await new Stripe(process.env.STRIPE_SECRET_KEY).checkout.sessions.retrieve(id);
+        paid = session.payment_status === 'paid';
+        name = (session.customer_details?.name ?? '').split(' ')[0];
+    } catch {
+        paid = false;
+    }
+}
+---
+
+<Base title="bedankt · southsidedinero">
+    <main class="block-thanks">
+        <section class="block-thanks-window">
+            <header class="block-thanks-bar">bedankt.exe</header>
+            <div class="block-thanks-body">
+                <img
+                    src="/img/shop/logo-8.png"
+                    alt="southsidedinero"
+                    width="220"
+                    height="110"
+                />
+                {
+                    paid ? (
+                        <>
+                            <h1 class="block-thanks-header">bedankt{name && ` ${name.toLowerCase()}`}.</h1>
+                            <p class="block-thanks-text">je bestelling is binnen. de bevestiging staat in je mail, we laten het weten zodra hij onderweg is.</p>
+                        </>
+                    ) : (
+                        <>
+                            <h1 class="block-thanks-header">bijna.</h1>
+                            <p class="block-thanks-text">we zien je betaling nog niet. betaalde je met een methode die wat langer duurt, dan krijg je een mail zodra hij rond is.</p>
+                        </>
+                    )
+                }
+                <a
+                    class="block-thanks-back"
+                    href="/"
+                    >terug naar de shop →</a
+                >
+                <img
+                    class="block-thanks-slogan"
+                    src="/img/shop/nulnanul.png"
+                    alt="nulnanul"
+                    width="2176"
+                    height="244"
+                />
+            </div>
+        </section>
+    </main>
+
+    <script is:inline define:vars={{ paid }}>
+        if (paid) {
+            try {
+                localStorage.removeItem('ssd:cart');
+            } catch {}
+        }
+    </script>
+</Base>

@@ -7,6 +7,10 @@
  */
 const status = Astro.url.searchParams.get('login');
 const message = status === 'fout' ? 'verkeerd wachtwoord, probeer opnieuw.' : status === 'wacht' ? 'te vaak geprobeerd. wacht een minuut.' : null;
+
+// The mail form below the login (api/subscribe.ts) answers with ?mail=...
+const mail = Astro.url.searchParams.get('mail');
+const mailMessage = mail === 'ok' ? 'sent.' : mail === 'fout' ? 'dat mailadres klopt niet.' : mail === 'wacht' ? 'even rustig, probeer het zo opnieuw.' : null;
 ---
 
 <section
@@ -74,7 +78,7 @@ const message = status === 'fout' ? 'verkeerd wachtwoord, probeer opnieuw.' : st
                     fill="#000300"
                 ></rect>
             </svg>
-            <p>je moet wachten.</p>
+            <p>holdonnnn</p>
         </div>
 
         <div class="block-login-fields">
@@ -112,5 +116,53 @@ const message = status === 'fout' ? 'verkeerd wachtwoord, probeer opnieuw.' : st
             <button type="submit">ok</button>
             <button type="reset">cancel</button>
         </div>
+    </form>
+
+    <form
+        class="block-login-mail"
+        method="post"
+        action="/api/subscribe"
+    >
+        <div class="block-login-mail-row">
+            <label
+                class="visually-hidden"
+                for="login-mail"
+                >mail</label
+            >
+            <input
+                id="login-mail"
+                name="email"
+                type="email"
+                inputmode="email"
+                autocomplete="email"
+                placeholder="email"
+                required
+            />
+            <button type="submit">submit</button>
+        </div>
+        <!-- Honeypot: hidden from people, bots fill it in. -->
+        <div
+            class="block-login-mail-trap"
+            aria-hidden="true"
+        >
+            <label for="login-website">website</label>
+            <input
+                id="login-website"
+                name="website"
+                type="text"
+                tabindex="-1"
+                autocomplete="off"
+            />
+        </div>
+        {
+            mailMessage && (
+                <p
+                    class:list={['block-login-mail-message', { error: mail !== 'ok' }]}
+                    role="status"
+                >
+                    {mailMessage}
+                </p>
+            )
+        }
     </form>
 </section>

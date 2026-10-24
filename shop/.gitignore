@@ -24,9 +24,12 @@ pnpm-debug.log*
 .idea/
 .env
 
-# shared with winwinwin, copied in by `npm run assets`
-public/beats/
-public/img/*.png
+# The beats and radio images (copied in from winwinwin by `npm run assets`)
+# are committed, like in winwinwin: Coolify builds from git, so anything
+# ignored here is missing on the live site.
 
 # mama's tuin masters — the site plays the mp3s
 public/mamastuin/*.wav
+
+# mailing list collected on the live site, never commit it
+data/

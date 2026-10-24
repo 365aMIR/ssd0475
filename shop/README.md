@@ -21,8 +21,10 @@ run it before building, or commit them if you'd rather.
 
 | What | File |
 | :-- | :-- |
-| Products (name, price, sizes, photos, new tag) | `src/data/products.ts` |
-| Shipping cost on the receipt | `SHIPPING` in `src/data/products.ts` |
+| Products, stock, shipping zones | the admin (`../backend`), read by `src/lib/backend.server.ts` |
+| Fallback products (no admin running) | `src/data/products.ts` |
+| Checkout (makes the Stripe session) | `src/pages/api/checkout.ts` |
+| Page after paying | `src/pages/bedankt.astro` |
 | mama's tuin (tracks, video, cover, link) | `src/data/ep.ts` |
 | Shop images, logos, badges | `public/img/shop/` |
 | Page layout | `src/pages/index.astro` |
@@ -53,9 +55,35 @@ Formatting follows the shared `.prettierrc` (4 spaces, single quotes):
 
 ## Adding a product
 
-Add an entry to `products` in `src/data/products.ts` and drop its photos in
-`public/img/shop/`. First photo is the card image. Set `isNew: false` once it's
-no longer new — the card then shows the red southsidedinero tag.
+In the admin (`admin.southsidedinero.com`, see `../backend/README.md`):
+Producten → nieuw, fill it in, upload photos (first one is the card image),
+sizes with their stock, then **Publiceren**. The shop shows it within ten
+seconds. Saved as a draft it stays hidden. Untick the yellow "new" label once it isn't
+new any more: the card then shows the red southsidedinero tag.
+
+Without `BACKEND_ENDPOINT` (local dev without the admin) the shop shows the
+products in `src/data/products.ts` instead, and checkout uses one zone,
+Nederland, free shipping.
+
+## Checkout (Stripe)
+
+The receipt's checkout button posts the cart to `/api/checkout`. That checks
+prices, sizes and stock again in the admin, then makes a Stripe Checkout
+session and sends the buyer there. Stripe asks for the address (only countries
+in the chosen zone), adds that zone's shipping, takes iDEAL/Bancontact/cards
+and mails a receipt. Afterwards the buyer lands on `/bedankt`.
+
+Stripe then calls the admin's webhook, which saves the order (Bestellingen) and
+lowers the stock. Orders are only made there, never by the shop itself.
+
+Environment variables for the shop (Coolify):
+
+| Variable | What |
+| :-- | :-- |
+| `BACKEND_ENDPOINT` | the admin's URL, `https://admin.southsidedinero.com` |
+| `BACKEND_API_KEY` | API key of the "shop" user in the admin |
+| `STRIPE_SECRET_KEY` | `sk_test_…` while testing, `sk_live_…` for real |
+| `SITE_URL` | optional; where Stripe sends buyers back. Defaults to `https://southsidedinero.com` |
 
 ## The video clip
 
@@ -103,11 +131,27 @@ Set in Coolify (no code change needed):
   testing, so set this before going live. Changing it logs everyone out.
 - `SITE_LOCKED=false` on drop day opens the shop for everyone.
 
+## Mailing list
+
+The login screen has a second form: visitors without the password can leave
+their email to hear about the drop. Addresses go to `data/subscribers.csv`
+(`src/lib/subscribers.server.ts`, posted to `src/pages/api/subscribe.ts`).
+
+On Coolify:
+
+- Persistent Storage: a volume mounted at `/app/data`, otherwise the list is
+  emptied on every deploy.
+- `SUBSCRIBERS_PASSWORD`: the password to download the list. Open
+  `https://southsidedinero.com/api/subscribers`, any username, this password,
+  and you get a CSV. Without the variable that page answers 404.
+
+Someone asking to be removed: delete their line from the CSV (Coolify
+Terminal) until the list moves into Payload.
+
 ## Still open
 
-- **Checkout**: the receipt's checkout button is disabled. Needs a payment
-  provider (Mollie, Stripe, Shopify buy button…) before it can take orders.
-- **Shipping cost**: `SHIPPING` is `null`, so the receipt shows "nog te bepalen".
+- **Beats**: selling beats (download after paying) is for later, through the
+  same admin and Stripe setup.
 - **Copy**: hero text and the Roermond story are still placeholders in
   `src/pages/index.astro`.
 - **Footer links**: service/legal pages don't exist yet.
