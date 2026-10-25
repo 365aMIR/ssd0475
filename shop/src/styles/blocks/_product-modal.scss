@@ -148,12 +148,16 @@
             font-family: $tiny5;
             cursor: crosshair;
 
+            &:hover {
+                background-color: $yellow;
+            }
+
             &[aria-checked='true'] {
                 background-color: $black;
                 color: $white;
             }
 
-            // Sold out: crossed through, can't be picked.
+            // sold out
             &:disabled {
                 opacity: 0.45;
                 text-decoration: line-through;
@@ -175,7 +179,7 @@
         cursor: crosshair;
 
         &:hover {
-            background-color: $green;
+            background-color: $yellow;
             color: $black;
         }
 

@@ -4,6 +4,29 @@ html {
     scroll-behavior: smooth;
 }
 
+// Thin grey scrollbars everywhere (the page and every window that scrolls).
+* {
+    scrollbar-width: thin;
+    scrollbar-color: $darkgrey transparent;
+}
+
+// Safari doesn't know scrollbar-color yet: same look the old way.
+@supports not (scrollbar-color: auto) {
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: $darkgrey;
+        border-radius: 4px;
+    }
+}
+
 // The pink transparency checkerboard from the radio site, same 48px tile.
 body {
     margin: 0;

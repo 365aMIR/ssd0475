@@ -452,6 +452,24 @@ html {
   scroll-behavior: smooth;
 }
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #797676 transparent;
+}
+
+@supports not (scrollbar-color: auto) {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #797676;
+    border-radius: 4px;
+  }
+}
 body {
   margin: 0;
   font-family: "Ojuju", sans-serif;
@@ -689,7 +707,7 @@ img {
   flex-direction: column;
   gap: 4px;
   width: 180px;
-  margin-top: -2px;
+  margin-top: -3px;
   padding: 10px 14px 18px;
   background-color: #fffdf6;
   border: 2px solid #000300;
@@ -1990,6 +2008,9 @@ body:has(.block-desktop--locked) {
   font-family: "Tiny5", sans-serif;
   cursor: crosshair;
 }
+.block-product-modal-size-row button:hover {
+  background-color: #f5ee5a;
+}
 .block-product-modal-size-row button[aria-checked=true] {
   background-color: #000300;
   color: #fffeff;
@@ -2012,7 +2033,7 @@ body:has(.block-desktop--locked) {
   cursor: crosshair;
 }
 .block-product-modal-add:hover {
-  background-color: #00ff2f;
+  background-color: #f5ee5a;
   color: #000300;
 }
 .block-product-modal-add:disabled {
