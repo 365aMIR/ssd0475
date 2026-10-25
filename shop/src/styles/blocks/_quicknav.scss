@@ -5,6 +5,7 @@
     flex-wrap: wrap;
     justify-content: center;
     background-color: $skyblue;
+    background-color: #8fd3f47d;
     border: 2px solid $black;
     margin-top: -16px;
 
@@ -27,6 +28,7 @@
 
         &:hover {
             color: $white;
+            background: $skyblue;
             background: radial-gradient(#00acff, transparent)
         }
     }

@@ -55,14 +55,18 @@
         height: 32px;
         background-color: $white;
         border: none;
-        font-family: $space-mono;
-        font-weight: 700;
+        font-family: $tiny5;
         color: $black;
         font-size: 15px;
         cursor: crosshair;
 
         &:hover {
-            background-color: $green;
+            background-color: $black;
+            color: $white;
+        }
+
+        &:focus {
+            outline: none;
         }
     }
 

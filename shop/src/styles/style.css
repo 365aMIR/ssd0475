@@ -603,7 +603,8 @@ img {
   color: #000300;
 }
 .button-close:hover {
-  background-color: #00ff2f;
+  background-color: #000300;
+  color: #fffeff;
 }
 .button-close:focus {
   outline: none;
@@ -808,7 +809,7 @@ img {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  align-items: center;
+  align-items: end;
 }
 
 @media screen and (max-width: 768px) {
@@ -867,6 +868,7 @@ img {
   flex-wrap: wrap;
   justify-content: center;
   background-color: #8fd3f4;
+  background-color: rgba(143, 211, 244, 0.4901960784);
   border: 2px solid #000300;
   margin-top: -16px;
 }
@@ -884,6 +886,7 @@ img {
 }
 .block-quicknav-link:hover {
   color: #fffeff;
+  background: #8fd3f4;
   background: radial-gradient(#00acff, transparent);
 }
 
@@ -926,6 +929,7 @@ img {
 .block-products-title {
   font-size: 26px;
   font-weight: 800;
+  font-family: "Geostar Fill", sans-serif;
 }
 .block-products-count {
   margin-left: 8px;
@@ -1010,7 +1014,7 @@ img {
   font-size: 12px;
 }
 .block-products-price {
-  font-family: "Space Mono", monospace;
+  font-family: "Taviraj", serif;
   font-weight: 700;
   font-size: 14px;
   color: #c8102e;
@@ -1936,12 +1940,12 @@ body:has(.block-desktop--locked) {
   font-size: 24px;
   line-height: 1.15;
   color: #fffeff;
-  text-shadow: 2px 2px 0 #000300;
+  text-shadow: -2px 0px 0 #000300;
   text-transform: lowercase;
 }
 .block-product-modal-price {
-  font-family: "Tiny5", sans-serif;
-  font-size: 42px;
+  font-family: "Taviraj", serif;
+  font-size: 18px;
   line-height: 1;
 }
 .block-product-modal-description {
@@ -2112,14 +2116,17 @@ body:has(.block-desktop--locked) {
   height: 32px;
   background-color: #fffeff;
   border: none;
-  font-family: "Space Mono", monospace;
-  font-weight: 700;
+  font-family: "Tiny5", sans-serif;
   color: #000300;
   font-size: 15px;
   cursor: crosshair;
 }
 .block-product-gallery-close:hover {
-  background-color: #00ff2f;
+  background-color: #000300;
+  color: #fffeff;
+}
+.block-product-gallery-close:focus {
+  outline: none;
 }
 .block-product-gallery-photos {
   display: flex;
@@ -2420,5 +2427,9 @@ body:has(.block-desktop--locked) {
   .block-footer-image {
     width: calc(100% - 24px);
     margin: 20px 12px 12px;
+  }
+  .block-footer-bottom {
+    font-size: 10px;
+    text-transform: lowercase;
   }
 }/*# sourceMappingURL=style.css.map */

@@ -40,8 +40,14 @@
 }
 
 @media screen and (max-width: 576px) {
-    .block-footer-image {
-        width: calc(100% - 24px);
-        margin: 20px 12px 12px;
+    .block-footer {
+        &-image {
+            width: calc(100% - 24px);
+            margin: 20px 12px 12px;
+        }
+        &-bottom{
+            font-size: 10px;
+            text-transform: lowercase;
+        }
     }
 }
