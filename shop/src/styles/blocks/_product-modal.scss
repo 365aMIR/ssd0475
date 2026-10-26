@@ -244,4 +244,10 @@
             object-fit: contain;
         }
     }
+    @media screen and (max-width: 576px) {
+        &-add{
+            background-color: $yellow;
+            color: $black;
+        }
+    }
 }

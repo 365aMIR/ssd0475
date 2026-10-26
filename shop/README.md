@@ -143,19 +143,18 @@ Set in Coolify (no code change needed):
 ## Mailing list
 
 The login screen has a second form: visitors without the password can leave
-their email to hear about the drop. Addresses go to `data/subscribers.csv`
-(`src/lib/subscribers.server.ts`, posted to `src/pages/api/subscribe.ts`).
+their email to hear about the drop (posted to `src/pages/api/subscribe.ts`).
 
-On Coolify:
+The addresses are saved in the admin under **Website → Inschrijvingen**. There
+you see who signed up and when, remove someone who asks, and download the
+whole list with **Download als CSV**. An address that is already on the list is
+not added twice.
 
-- Persistent Storage: a volume mounted at `/app/data`, otherwise the list is
-  emptied on every deploy.
-- `SUBSCRIBERS_PASSWORD`: the password to download the list. Open
-  `https://southsidedinero.com/api/subscribers`, any username, this password,
-  and you get a CSV. Without the variable that page answers 404.
-
-Someone asking to be removed: delete their line from the CSV (Coolify
-Terminal) until the list moves into Payload.
+If the admin can't be reached at that moment (or `BACKEND_ENDPOINT` isn't set,
+like in local dev), the address goes to `data/subscribers.csv` instead
+(`src/lib/subscribers.server.ts`), so nobody is lost. That file can be
+downloaded at `/api/subscribers` with `SUBSCRIBERS_PASSWORD` (any username);
+without that variable the page answers 404.
 
 ## Still open
 

@@ -2087,6 +2087,12 @@ body:has(.block-desktop--locked) {
   -o-object-fit: contain;
      object-fit: contain;
 }
+@media screen and (max-width: 576px) {
+  .block-product-modal-add {
+    background-color: #f5ee5a;
+    color: #000300;
+  }
+}
 
 .block-product-gallery {
   padding: 34px 0 0;

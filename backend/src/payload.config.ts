@@ -11,6 +11,7 @@ import { Users } from './collections/Users';
 import { Media } from './collections/Media';
 import { Products } from './collections/Products';
 import { Orders } from './collections/Orders';
+import { Subscribers } from './collections/Subscribers';
 import { ShopSettings } from './globals/ShopSettings';
 import { SiteContent } from './globals/SiteContent';
 import { stripeWebhook } from './stripe/webhook';
@@ -49,7 +50,7 @@ export default buildConfig({
         },
     },
 
-    collections: [Products, Orders, Media, Users],
+    collections: [Products, Orders, Subscribers, Media, Users],
 
     globals: [ShopSettings, SiteContent],
 

@@ -5,10 +5,11 @@ import path from 'node:path';
  * The mailing list from the login screen: people who leave their address to
  * hear about the drop. Server only.
  *
- * Stored as one CSV file in DATA_DIR (default ./data). On Coolify that folder
- * must be a Persistent Storage volume mounted at /app/data, otherwise every
- * deploy starts with an empty list. When the Payload backend is live, this
- * moves into a collection there.
+ * With the admin connected (BACKEND_ENDPOINT) addresses are saved there,
+ * under Website → Inschrijvingen (pages/api/subscribe.ts). This CSV file in
+ * DATA_DIR (default ./data) is only the fallback: without the admin, or when
+ * it can't be reached. On Coolify that is lost on every deploy unless /app/data
+ * is a Persistent Storage volume.
  */
 const DIR = process.env.DATA_DIR || path.join(process.cwd(), 'data');
 const FILE = path.join(DIR, 'subscribers.csv');
