@@ -1,0 +1,96 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+
+// Public page, also while the shop is locked. Linked from the footer
+// (admin → Teksten → Footer).
+const email = 'amirdessouky@gmail.com';
+---
+
+<LegalPage
+    title="privacy policy"
+    file="privacy.txt"
+>
+    <p class="block-legal-updated">Last updated: 24 November 2026</p>
+    <p>
+        This privacy policy describes how your personal information is collected, used and shared when you visit or make a purchase from
+        southsidedinero.com (the "Site").
+    </p>
+
+    <h2>Personal information we collect</h2>
+    <p>
+        When you visit the Site, our server keeps short technical logs: your IP address, browser type and the date and time of your visit. We use
+        these only to keep the Site running and secure. We do not use analytics, advertising pixels or other tracking tools.
+    </p>
+    <p>The Site uses only what it needs to work:</p>
+    <ul>
+        <li>a cookie that remembers you entered the password before a drop (kept for 60 days);</li>
+        <li>your cart and chosen shipping country, stored in your own browser so they are still there when you come back.</li>
+    </ul>
+    <p>
+        When you make or try to make a purchase, we collect your name, email address, phone number, shipping address and what you ordered. We
+        refer to this as "Order Information". Payments are handled by Stripe: we never see or store your card or bank details.
+    </p>
+    <p>When you sign up for drop updates, we collect your email address.</p>
+
+    <h2>How we use your personal information</h2>
+    <p>We use your Order Information to:</p>
+    <ul>
+        <li>process your payment, ship your order and send you an order confirmation;</li>
+        <li>communicate with you about your order, returns and refunds;</li>
+        <li>screen orders for potential risk or fraud (through Stripe).</li>
+    </ul>
+    <p>
+        If you signed up for drop updates, we use your email address to tell you about new drops and releases. You can unsubscribe at any time by
+        sending us an email.
+    </p>
+
+    <h2>Sharing your personal information</h2>
+    <p>We only share your personal information where needed to deliver your order:</p>
+    <ul>
+        <li>
+            Stripe processes your payment. You can read how Stripe uses your information here:
+            <a
+                href="https://stripe.com/privacy"
+                rel="noopener">https://stripe.com/privacy</a
+            >.
+        </li>
+        <li>The shipping company that delivers your order receives your name and shipping address.</li>
+    </ul>
+    <p>
+        We never sell your personal information. We may also share your personal information to comply with applicable laws and regulations, to
+        respond to a lawful request for information, or to otherwise protect our rights.
+    </p>
+
+    <h2>Advertising</h2>
+    <p>We do not use your personal information for targeted advertising and we do not use advertising trackers on the Site.</p>
+
+    <h2>Your rights</h2>
+    <p>
+        Under the European privacy law (GDPR) you have the right to access the personal information we hold about you and to ask that it be
+        corrected, updated or deleted. You can also object to how we use it. To exercise these rights, contact us using the details below.
+    </p>
+    <p>
+        We process your information to fulfil the contract we have with you (your order), or with your consent (drop updates). Stripe may transfer
+        your information outside of Europe, including to the United States, under the safeguards of the GDPR. If you are not happy with how we
+        handle your information, you can file a complaint with the Dutch Data Protection Authority (Autoriteit Persoonsgegevens).
+    </p>
+
+    <h2>Data retention</h2>
+    <p>
+        We keep your Order Information as long as Dutch tax law requires us to keep our records (7 years). Your email address for drop updates is
+        kept until you unsubscribe.
+    </p>
+
+    <h2>Changes</h2>
+    <p>
+        We may update this privacy policy from time to time, for example to reflect changes to our practices or for other operational, legal or
+        regulatory reasons.
+    </p>
+
+    <h2>Contact us</h2>
+    <p>
+        For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please email us at
+        <a href={`mailto:${email}`}>{email}</a>.
+    </p>
+    <p>southsidedinero.com</p>
+</LegalPage>

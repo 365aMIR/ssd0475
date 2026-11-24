@@ -9,6 +9,10 @@
     max-height: calc(100dvh - 32px);
     overflow: visible;
 
+    &:focus{
+        outline: none;
+    }
+
     // No dimmed overlay: the page stays visible behind the window.
     &::backdrop {
         background-color: transparent;
@@ -75,7 +79,7 @@
             display: block;
             width: 100%;
             aspect-ratio: 1 / 1;
-            object-fit: contain;
+            object-fit: cover;
             background-color: $white;
         }
     }

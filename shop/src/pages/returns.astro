@@ -1,0 +1,74 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+
+// Public page, also while the shop is locked. Linked from the footer
+// (admin → Teksten → Footer).
+const email = 'amirdessouky@gmail.com';
+---
+
+<LegalPage
+    title="return policy"
+    file="returns.txt"
+>
+    <p class="block-legal-updated">Last updated: 24 November 2026</p>
+
+    <h2>How to return</h2>
+    <p>Please check the information below first to see if your item can be returned.</p>
+    <ol>
+        <li>
+            Email us at <a href={`mailto:${email}`}>{email}</a> within 14 days after you received your order. Include your order number and the products
+            you wish to return (and why, if you like).
+        </li>
+        <li>Send the item back to us within 14 days after your email. See the shipping part below.</li>
+        <li>
+            Once we have received your return, we transfer the money back to you via the same payment method you used, within 14 days after your
+            email.
+        </li>
+    </ol>
+
+    <h2>Returns</h2>
+    <p>
+        You can return your order within 14 days after you received it, without giving a reason. If more than 14 days have passed since you received
+        your order, unfortunately we can't offer you a refund or exchange.
+    </p>
+    <p>
+        You may try your item on, the same way you would in a store. To be returned, it must be unworn, unwashed and in the same condition you
+        received it, with the tags still attached and preferably in the original packaging. If an item comes back worn, washed or damaged, we may
+        deduct the loss in value from your refund.
+    </p>
+    <p>To complete your return, please include your order number or the confirmation email of your order in your package.</p>
+
+    <h2>Refunds</h2>
+    <p>
+        Once your return is received and inspected, we will send you an email to let you know we received it. We refund the price of the product
+        and the original shipping costs of your order, via the same payment method you used. We may wait with the refund until we have received
+        the item back.
+    </p>
+
+    <h2>Late or missing refunds</h2>
+    <p>If you haven't received your refund yet:</p>
+    <ul>
+        <li>first check your bank account again;</li>
+        <li>then contact your credit card company, it may take some time before your refund is officially posted;</li>
+        <li>next contact your bank, there is often some processing time before a refund is posted.</li>
+    </ul>
+    <p>If you've done all of this and you still have not received your refund, please contact us at <a href={`mailto:${email}`}>{email}</a>.</p>
+
+    <h2>Exchanges</h2>
+    <p>
+        We only replace items if they are defective or damaged. If that's the case, send us an email at <a href={`mailto:${email}`}>{email}</a> with a
+        photo, and we will replace the item or refund you, including the return shipping costs.
+    </p>
+    <p>Want a different size? Return your item as described above and place a new order.</p>
+
+    <h2>Shipping</h2>
+    <p>To return your product, send us an email at <a href={`mailto:${email}`}>{email}</a> and we'll send you the return address.</p>
+    <p>
+        You are responsible for paying your own shipping costs for returning your item (unless the item is defective or damaged). These return
+        shipping costs are not refunded.
+    </p>
+    <p>
+        We recommend using a trackable shipping service or buying shipping insurance, since we can't guarantee that we will receive your returned
+        item.
+    </p>
+</LegalPage>

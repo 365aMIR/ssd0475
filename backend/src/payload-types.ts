@@ -619,6 +619,10 @@ export interface SiteContent {
   footer?: {
     copyright?: string | null;
     /**
+     * Staat naast de copyright.
+     */
+    kvk?: string | null;
+    /**
      * Leeg = Algemene voorwaarden en Privacy (nog zonder pagina).
      */
     links?:
@@ -722,6 +726,7 @@ export interface SiteContentSelect<T extends boolean = true> {
     | T
     | {
         copyright?: T;
+        kvk?: T;
         links?:
           | T
           | {

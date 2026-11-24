@@ -118,13 +118,16 @@ export const SiteContent: GlobalConfig = {
                     name: 'footer',
                     label: 'Footer',
                     fields: [
-                        text('copyright', 'Copyright', '© southsidedinero 2026'),
+                        {
+                            type: 'row',
+                            fields: [text('copyright', 'Copyright', '© southsidedinero 2026', undefined, '50%'), text('kvk', 'KvK-nummer', '42229558', 'Staat naast de copyright.', '50%')],
+                        },
                         {
                             name: 'links',
                             label: 'Links',
                             type: 'array',
                             labels: { singular: 'Link', plural: 'Links' },
-                            admin: { description: 'Leeg = Algemene voorwaarden en Privacy (nog zonder pagina).' },
+                            admin: { description: 'Leeg = Privacy policy (/privacy) en Return policy (/returns).' },
                             fields: [
                                 {
                                     type: 'row',

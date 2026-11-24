@@ -1,0 +1,43 @@
+---
+/**
+ * Shell for the text pages (pages/privacy.astro, pages/returns.astro): a
+ * window like the thank-you page, wide enough to read.
+ * Styles: blocks/_legal.scss
+ */
+import Base from '../layouts/Base.astro';
+
+interface Props {
+    title: string;
+    file: string;
+}
+
+const { title, file } = Astro.props;
+---
+
+<Base title={`${title} · southsidedinero`}>
+    <main class="block-legal">
+        <article class="block-legal-window">
+            <header class="block-legal-bar">{file}</header>
+            <div class="block-legal-body">
+                <a
+                    href="/"
+                    class="block-legal-logo"
+                >
+                    <img
+                        src="/img/shop/logo-8.png"
+                        alt="southsidedinero"
+                        width="170"
+                        height="85"
+                    />
+                </a>
+                <h1 class="block-legal-title">{title}</h1>
+                <slot />
+                <a
+                    class="block-legal-back"
+                    href="/"
+                    >← back to the shop</a
+                >
+            </div>
+        </article>
+    </main>
+</Base>

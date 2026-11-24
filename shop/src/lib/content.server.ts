@@ -49,9 +49,10 @@ export const DEFAULT_CONTENT = {
     },
     footer: {
         copyright: '© southsidedinero 2026',
+        kvk: '42229558',
         links: [
-            { label: 'Algemene voorwaarden', url: '#' },
-            { label: 'Privacy', url: '#' },
+            { label: 'privacy policy', url: '/privacy' },
+            { label: 'return policy', url: '/returns' },
         ],
     },
     thanks: {

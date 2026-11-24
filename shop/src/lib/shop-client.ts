@@ -195,12 +195,17 @@ export function startShop() {
         });
     closeOnBackdrop(bon);
 
-    document.querySelectorAll('[data-cart-open]').forEach((btn) =>
-        btn.addEventListener('click', () => {
-            renderCart();
-            bon.showModal();
-        }),
-    );
+    // Chrome sometimes keeps showing the receipt as it was painted while closed
+    // (rotated paper + drop-shadow filter): the lines, date and subtotal stayed
+    // blank until the next click. Filling it in again once it's on screen makes
+    // it repaint.
+    const openCart = () => {
+        renderCart();
+        bon.showModal();
+        requestAnimationFrame(() => renderCart());
+    };
+
+    document.querySelectorAll('[data-cart-open]').forEach((btn) => btn.addEventListener('click', openCart));
 
     /* ---------- product popup ---------- */
     const modal = el<HTMLDialogElement>('product-modal');
@@ -321,7 +326,7 @@ export function startShop() {
         if (!current || !size) return;
         addToCart(current.id, size);
         modal.close();
-        bon.showModal();
+        openCart();
     });
 
     document.addEventListener('click', (e) => {

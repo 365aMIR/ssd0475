@@ -488,7 +488,10 @@ const fileName = (name: string) => name.toLowerCase().replace(/\s+/g, '_') + '.j
                             <div class="row">
                                 <div class="col-12">
                                     <div class="block-footer-bottom-wrapper">
-                                        <span>{footer.copyright}</span>
+                                        <span>
+                                            {footer.copyright}
+                                            {footer.kvk && ` · kvk: ${footer.kvk}`}
+                                        </span>
                                         <span class="block-footer-bottom-links">
                                             {footer.links.map((link) => (
                                                 <a href={link.url}>{link.label}</a>

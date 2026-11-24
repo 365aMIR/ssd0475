@@ -38,6 +38,12 @@
     &-paper {
         transform: rotate(-1.2deg);
         filter: drop-shadow(8px 10px 0 rgba(0, 3, 0, 0.35));
+        // Own layer, so Chrome repaints the text inside when it changes.
+        will-change: transform;
+
+        &:focus{
+            outline: none;
+        }
     }
 
     // Torn edges: two rows of triangles in the paper colour.
