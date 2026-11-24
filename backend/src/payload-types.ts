@@ -226,6 +226,8 @@ export interface Order {
   shippingMethod?: string | null;
   shippingCost?: number | null;
   total?: number | null;
+  discountCode?: string | null;
+  discount?: number | null;
   notes?: string | null;
   stripeSessionId?: string | null;
   /**
@@ -419,6 +421,8 @@ export interface OrdersSelect<T extends boolean = true> {
       };
   shippingMethod?: T;
   shippingCost?: T;
+  discountCode?: T;
+  discount?: T;
   total?: T;
   notes?: T;
   stripeSessionId?: T;

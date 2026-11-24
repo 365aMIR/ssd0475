@@ -67,6 +67,21 @@ export async function createOrderFromSession(payload: Payload, session: Stripe.C
         }
     }
 
+    // Discount code used at checkout (Stripe only sends its id, so look up the code itself).
+    const discount = toEuro(session.total_details?.amount_discount);
+    let discountCode = '';
+    const promo = session.discounts?.find((d) => d.promotion_code)?.promotion_code;
+    if (promo) {
+        if (typeof promo === 'object') discountCode = promo.code;
+        else if (process.env.STRIPE_SECRET_KEY) {
+            try {
+                discountCode = (await new Stripe(process.env.STRIPE_SECRET_KEY).promotionCodes.retrieve(promo)).code;
+            } catch {
+                discountCode = promo;
+            }
+        }
+    }
+
     // Newer Stripe API versions put the shipping address under collected_information.
     const shipping = session.collected_information?.shipping_details ?? (session as unknown as { shipping_details?: Stripe.Checkout.Session.CollectedInformation.ShippingDetails }).shipping_details;
     const address = shipping?.address ?? session.customer_details?.address;
@@ -89,6 +104,8 @@ export async function createOrderFromSession(payload: Payload, session: Stripe.C
             items,
             shippingMethod: session.metadata?.zone ?? '',
             shippingCost: toEuro(session.shipping_cost?.amount_total),
+            discountCode,
+            discount,
             total: toEuro(session.amount_total),
             stripeSessionId: session.id,
             stripePaymentIntent: typeof session.payment_intent === 'string' ? session.payment_intent : (session.payment_intent?.id ?? ''),

@@ -86,6 +86,9 @@ export const POST: APIRoute = async ({ request, locals, url }) => {
                 },
             },
         ],
+        // Discount codes: made in the Stripe dashboard (Product catalogue →
+        // Coupons → promotion code); Stripe shows the field and checks the code.
+        allow_promotion_codes: true,
         metadata: { items: meta, zone: zone.name },
         success_url: `${origin}/bedankt?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${origin}/?checkout=geannuleerd`,

@@ -95,6 +95,13 @@ export const Orders: CollectionConfig = {
                 { name: 'total', label: 'Totaal betaald (€)', type: 'number', admin: { readOnly: true, width: '33%' } },
             ],
         },
+        {
+            type: 'row',
+            fields: [
+                { name: 'discountCode', label: 'Kortingscode', type: 'text', admin: { readOnly: true, width: '50%' } },
+                { name: 'discount', label: 'Korting (€)', type: 'number', admin: { readOnly: true, width: '50%' } },
+            ],
+        },
         { name: 'notes', label: 'Notities', type: 'textarea' },
         {
             name: 'stripeSessionId',
