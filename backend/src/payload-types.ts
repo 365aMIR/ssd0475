@@ -526,6 +526,10 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface ShopSetting {
   id: string;
+  /**
+   * Aan: bezoekers zien het inlogscherm en alleen wie het wachtwoord heeft ziet de producten. Uit: de drop is live en iedereen ziet de shop. De shop neemt het binnen 10 seconden over.
+   */
+  siteLocked?: boolean | null;
   shippingZones?:
     | {
         name: string;
@@ -642,6 +646,7 @@ export interface SiteContent {
  * via the `definition` "shop-settings_select".
  */
 export interface ShopSettingsSelect<T extends boolean = true> {
+  siteLocked?: T;
   shippingZones?:
     | T
     | {

@@ -134,11 +134,17 @@ they see the whole shop.
 - Product photos live in `private/products/` and are served by `/shop-img/`,
   which answers 404 while the visitor is locked out.
 
-Set in Coolify (no code change needed):
+**On drop day:** in the admin go to **Shop → Shop instellingen** and switch off
+**Site op slot**. Within 10 seconds everyone sees the shop. Switch it back on to
+lock it again. While the admin has never answered (or locally without it) the
+site stays locked.
+
+Set in Coolify:
 
 - `SITE_PASSWORD` the password. The default (`nulnanul`) is only for local
   testing, so set this before going live. Changing it logs everyone out.
-- `SITE_LOCKED=false` on drop day opens the shop for everyone.
+- `SITE_LOCKED` emergency override only, it wins over the toggle (`false`
+  opens, `true` locks). Leave it out normally, or the toggle does nothing.
 
 ## Mailing list
 

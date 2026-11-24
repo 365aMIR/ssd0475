@@ -39,12 +39,15 @@ interface PayloadProduct {
 }
 
 interface PayloadSettings {
+    siteLocked?: boolean | null;
     shippingZones?: { name?: string | null; countries?: string | null; price?: number | null }[] | null;
 }
 
 export interface Catalog {
     products: Product[];
     zones: ShippingZone[];
+    /** Shop instellingen → Site op slot; null when the admin hasn't answered yet. */
+    locked: boolean | null;
 }
 
 const toProduct = (doc: PayloadProduct): Product => ({
@@ -71,7 +74,7 @@ const toProduct = (doc: PayloadProduct): Product => ({
 let cache: { at: number; data: Catalog } | null = null;
 const CACHE_MS = 10_000;
 
-const EMPTY: Catalog = { products: [], zones: [] };
+const EMPTY: Catalog = { products: [], zones: [], locked: null };
 
 async function loadCatalog(): Promise<Catalog> {
     const [productsRes, settingsRes] = await Promise.all([backendFetch('/api/products?where[_status][equals]=published&depth=1&sort=order&limit=100'), backendFetch('/api/globals/shop-settings')]);
@@ -91,7 +94,7 @@ async function loadCatalog(): Promise<Catalog> {
         // A zone without countries can't be shipped to.
         .filter((z) => z.name && z.countries.length);
 
-    return { products, zones };
+    return { products, zones, locked: typeof settings.siteLocked === 'boolean' ? settings.siteLocked : null };
 }
 
 /**
@@ -100,7 +103,7 @@ async function loadCatalog(): Promise<Catalog> {
  * page. The reason goes to the logs (Coolify → shop → Logs).
  */
 export async function getCatalog(): Promise<Catalog> {
-    if (!hasBackend()) return { products: localProducts, zones: [{ name: 'Nederland', countries: ['NL'], price: 0 }] };
+    if (!hasBackend()) return { products: localProducts, zones: [{ name: 'Nederland', countries: ['NL'], price: 0 }], locked: null };
     if (cache && Date.now() - cache.at < CACHE_MS) return cache.data;
 
     try {
